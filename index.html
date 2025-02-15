@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Grid</title>
+
+    <style>
+        body {
+            background-color: #1e1e2e;
+        }
+
+        /* Main layout container */
+        .main-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Wrapper to align columns */
+        .content-wrapper {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        /* Each column */
+        .grid-container {
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .grid-header {
+            font-size: 20px;
+            color: yellow;
+        }
+
+        .building-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 120px);
+            grid-template-rows: 40px 80px 50px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .grid-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+            position: relative;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .quantity {
+            font-size: 14px;
+            color: yellow;
+        }
+
+        /* Building Row */
+        .building {
+            background: transparent;
+            font-size: 32px;
+            box-shadow: none;
+        }
+
+        .money-badge {
+            position: absolute;
+            top: -20px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: gold;
+            color: black;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            opacity: 0.5;
+            pointer-events: none;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .money-badge.enabled {
+            opacity: 1;
+            pointer-events: auto;
+            animation: pulse 1s infinite alternate;
+        }
+
+        /* Cost & Required Items Row */
+        .cost {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: transparent;
+            box-shadow: none;
+            font-size: 12px;
+        }
+
+        .buy-btn {
+            background: #ffcc00;
+            color: black;
+            font-weight: bold;
+            border: none;
+            padding: 5px 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            font-size: 12px;
+        }
+
+        .buy-btn:disabled {
+            background: gray;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .buy-btn:hover:enabled {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(255, 204, 0, 0.5);
+        }
+
+        .required-qty {
+            font-size: 14px;
+            color: lightgray;
+            margin-top: 2px;
+        }
+
+        .progress-container {
+            position: relative;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: conic-gradient(yellow 0%, transparent 0%);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+            100% { transform: scale(1.1); box-shadow: 0 0 10px rgba(255, 215, 0, 1); }
+        }
+
+</style>
+    <style>
+        .resource {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr; /* Two columns */
+            background: linear-gradient(145deg, #222, #333);
+            padding: 15px;
+            border-radius: 12px;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .emoji {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .qty {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #ffcc00;
+            text-shadow: 2px 2px 8px rgba(255, 204, 0, 0.8);
+        }
+
+        .cost {
+            font-size: 14px;
+            color: #ff6666;
+            margin-bottom: 8px;
+        }
+
+        .gather-btn {
+            background: linear-gradient(to right, #ff3b3b 0%, #444 0%);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            position: relative;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .gather-btn:disabled {
+            background: #555 !important;  /* Dark gray */
+            color: #aaa;  /* Light gray text */
+            cursor: not-allowed;
+            border: 1px solid #777;  /* Subtle outline */
+            opacity: 0.6;  /* Slightly faded */
+        }
+
+        .gather-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+        }
+
+        .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            border-radius: 6px;
+            background: rgba(255, 204, 0, 0.8);
+        }
+
+        .btn-text {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="grid-header" id="balance">💰 Balance: $0</div>
+    <div class="main-container">
+        <!-- Balance Section (Placed at the Top for Visibility) -->    
+        <div class="content-wrapper">
+            <!-- Left Section: Materials -->
+            <div class="grid-container">
+                <div class="grid-header">Materials</div>
+                <div class="material-grid" id="materialGrid"></div>
+            </div>
+    
+            <!-- Center Section: Buildings -->
+            <div class="grid-container">
+                <div class="grid-header">Buildings</div>
+                <div class="building-grid"></div>
+            </div>
+    
+            <!-- Right Section: Purchased Buildings -->
+            <div class="grid-container">
+                <div class="grid-header">Purchased Buildings</div>
+                <div class="purchased-grid" id="purchasedGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const buildingIcons = {
+            house: "🏠",
+            office: "🏢",
+            mall: "🏬",
+            factory: "🏭",
+            temple: "🛕"
+        };
+
+        function purchase(building) {
+            const needed = buildingsData.find(m => m.name === building).requirements;
+
+            for (const item in needed) {
+                updateMaterial(item, -needed[item]);
+            }
+
+            updateBalance(-buildingsData.find(m => m.name === building).cost);
+            addBuildingToGrid(building);
+        }
+
+        // Function to add a building to the purchased grid
+        function addBuildingToGrid(building) {
+            const purchasedGrid = document.getElementById("purchasedGrid");
+            const buildingElement = document.createElement("div");
+            buildingElement.classList.add("purchased-building");
+            buildingElement.innerHTML = buildingIcons[building];
+            purchasedGrid.appendChild(buildingElement);
+        }
+
+        let balance = 0;
+
+        function updateBalance(amount) {
+            balance += amount;
+
+            document.getElementById("balance").textContent = `💰 Balance: $${balance}`;
+            updateAllButtons();
+        }
+
+        function updateMaterial(materialName, qty) {
+            const material = materials.find(m => m.name === materialName);
+            if (!material) {
+                alert("Error: Material "+ materialName + " Not Found");
+                return;
+            }
+            material.qty += qty;
+            document.getElementById(materialName).textContent = material.qty;
+        }
+
+        function collectMoney(index, btn) {
+            if (!btn.classList.contains("enabled")) return;
+
+            const building = buildingsData[index];
+            updateBalance(building.tax);
+
+            btn.classList.remove("enabled");
+            startTaxCollection(building, btn);
+            // updateResourceButtons();
+
+            document.querySelectorAll(".gather-btn").forEach(button => {
+                let cost = parseInt(button.parentElement.querySelector(".cost").textContent.replace("Cost: $", ""));
+                button.disabled = balance < cost;
+            });
+
+        }
+
+        const materials = [
+            { name: "wood", emoji: "🪵", cost: 50, gatherTime: 4000, qty:1 },
+            { name: "steel", emoji: "🔩", cost: 500, gatherTime: 5000, qty:1 },
+            { name: "cement", emoji: "🏗️", cost: 1000, gatherTime: 6000, qty:0 },
+            { name: "tools", emoji: "🛠️", cost: 2000, gatherTime: 7000, qty:0 },
+            { name: "energy", emoji: "⚡", cost: 5000, gatherTime: 8000, qty:0 }
+        ];        
+
+        const buildingsData = [
+            { name: 'house', icon: '🏠', cost: 1000, tax: 100, taxInterval: 3000,
+                requirements: { steel: 1, wood: 1 } },
+            { name: 'office', icon: '🏢', cost: 3000, tax: 200, taxInterval: 5000,
+                requirements: { cement: 1, energy: 1 } },
+            { name: 'mall', icon: '🏬', cost: 5000, tax: 400, taxInterval: 10000,
+                requirements: { tools: 1, cement: 1 } },
+            { name: 'factory', icon: '🏭', cost: 8000, tax: 800, taxInterval: 18000,
+                requirements: { wood: 2, steel: 2 } },
+            { name: 'temple', icon: '🛕', cost: 12000, tax: 1000, taxInterval: 30000,
+                requirements: { cement: 2, tools: 2, energy: 2 } }
+        ];
+
+        const materialEmojis = Object.fromEntries(materials.map(m => [m.name, m.emoji]));
+
+        function generateGrid() {
+            const gridContainer = document.querySelector('.building-grid');
+            gridContainer.innerHTML = '';
+
+            // Row 1: Required Items
+            buildingsData.forEach(building => {
+                const requirementDiv = document.createElement('div');
+                requirementDiv.className = 'required-qty';
+                requirementDiv.textContent = Object.entries(building.requirements)
+                    .map(([key, val]) => `${materialEmojis[key]} x${val}`).join(', ');
+                gridContainer.appendChild(requirementDiv);
+            });
+
+            // Row 2: Buildings
+            buildingsData.forEach((building, index) => {
+                const buildingDiv = document.createElement('div');
+                buildingDiv.className = 'grid-item building';
+                buildingDiv.innerHTML = `
+                    ${building.icon}
+                    <div class="progress-container">
+                        <span class="money-badge" onclick="collectMoney(${index}, this)">💰</span>
+                    </div>
+                `;
+                gridContainer.appendChild(buildingDiv);
+                startTaxCollection(building, buildingDiv.querySelector('.money-badge'));
+            });
+
+            // Row 3: Cost & Buy Buttons
+            buildingsData.forEach(building => {
+                const costDiv = document.createElement('div');
+                costDiv.className = 'grid-item cost';
+                costDiv.innerHTML = `
+                    <button class="buy-btn" id="buy${capitalize(building.name)}" 
+                        onclick="purchase('${building.name}')" disabled>
+                        Buy $${building.cost}
+                    </button>
+                `;
+                gridContainer.appendChild(costDiv);
+            });
+
+            updateBalance(1000);
+        }
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        function startTaxCollection(building, btn) {
+            setTimeout(() => {
+                btn.classList.add('enabled');
+            }, building.taxInterval); // Generates income every 5 seconds
+        }
+
+        // Call function to generate grid on page load
+        document.addEventListener('DOMContentLoaded', generateGrid);
+
+        function updateAllButtons() {
+            // ✅ Update Buy Buttons (Buildings)
+            for (const buildingObj of buildingsData) {
+                const building = buildingObj.name;
+                const btn = document.getElementById(`buy${capitalize(building)}`);
+                const needed = buildingObj.requirements;
+                let canBuild = true;
+
+                for (const item in needed) {
+                    const material = materials.find(m => m.name === item);
+                    if (!material || material.qty < needed[item]) {
+                        canBuild = false;
+                        break;
+                    }
+                }
+
+                if (balance < buildingsData.find(m => m.name === building).cost) {
+                    canBuild = false;
+                }
+                btn.disabled = !canBuild;
+            }
+
+            // ✅ Update Gather Buttons (Materials)
+            document.querySelectorAll(".gather-btn").forEach(button => {
+                // const materialName = button.closest(".material").querySelector(".qty").textContent
+                const materialName = button.closest(".resource").querySelector(".qty").id;
+                const material = materials.find(m => m.name === materialName);
+                
+                if (material) {
+                    button.disabled = balance < material.cost;
+                }
+            });
+        }
+</script>
+<script>
+
+    function createMaterialGrid() {
+        const grid = document.getElementById("materialGrid");
+        grid.innerHTML = "";
+        materials.forEach((material, index) => {
+            const div = document.createElement("div");
+            div.classList.add("resource");
+            div.innerHTML = `
+                <div class="emoji material">${material.emoji}
+                    <span class="qty" id="${material.name}">${material.qty}</span></div>
+                <div class="cost">Cost: $${material.cost}</div>
+                <button class="gather-btn" onclick="startGathering(this, ${index})" disabled>
+                    <span class="btn-text">Gather</span>
+                    <div class="progress-bar"></div>
+                </button>
+            `;
+            grid.appendChild(div);
+        });
+    }
+
+    function startGathering(button, materialIndex) {
+        const material = materials[materialIndex];
+
+        if (balance < material.cost) return; // Prevent action if not enough balance
+        updateBalance(-material.cost);
+
+        button.disabled = true;
+        let text = button.querySelector(".btn-text");
+        let progressBar = button.querySelector(".progress-bar");
+        
+        text.textContent = "Collecting...";
+        progressBar.style.width = "0%";
+
+        // Start progress effect
+        setTimeout(() => {
+            progressBar.style.transition = `width ${material.gatherTime}ms linear`;
+            progressBar.style.width = "100%";
+        }, 10);
+
+        setTimeout(() => {
+            material.qty += 1;
+
+            let qtyElement = document.getElementById(material.name);
+            qtyElement.textContent = parseInt(qtyElement.textContent) + 1;
+
+            progressBar.style.width = "0%";
+            progressBar.style.transition = "none";
+
+            button.disabled = balance < material.cost;
+            text.textContent = "Gather";
+
+            updateAllButtons();
+        }, material.gatherTime);
+    }
+
+    createMaterialGrid();
+</script>
+</body>
+</html>
