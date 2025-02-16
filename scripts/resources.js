@@ -35,6 +35,8 @@ function startGathering(button, materialIndex) {
     const material = materials[materialIndex];
     const foodQty = materials.find(m => m.name === "food").qty;
 
+    if (!checkRequirements(button, material)) { return;}
+
     // Check if enough workers are available
     if (workers < material.workersRequired) {
         alert("Not enough workers to gather this material!");
@@ -94,4 +96,32 @@ function updateMaterial(materialName, qty) {
     }
     material.qty += qty;
     document.getElementById(materialName).textContent = material.qty;
+}
+
+function checkRequirements(button, material) {
+    // Check if material has requirements
+    if (material.requirements) {
+        for (const req in material.requirements) {
+            let requiredQty = material.requirements[req];
+
+            // Check if it's a building requirement
+            if (buildingsData.some(b => b.name === req)) {
+                const purchasedGrid = document.getElementById("purchasedGrid");
+                let buildingCount = purchasedData.filter(m => m.name === req).length || 0;
+
+                if (buildingCount < requiredQty) {
+                    alert(`⚠️ Not enough ${req}! You need ${requiredQty} to gather ${material.name}.`);
+                    return false;
+                }
+            } else {
+                // Check if it's a material requirement
+                let reqMaterial = materials.find(m => m.name === req);
+                if (!reqMaterial || reqMaterial.qty < requiredQty) {
+                    alert(`⚠️ Not enough ${req}! You need ${requiredQty} to gather ${material.name}.`);
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
 }

@@ -3,8 +3,10 @@ const buildingsData = [
     { name: "office", icon: "🏢", cost: 3000, tax: 200, taxInterval: 5000, requirements: { cement: 1, energy: 1 } },
     { name: "mall", icon: "🏬", cost: 5000, tax: 400, taxInterval: 10000, requirements: { tools: 1, cement: 1 } },
     { name: "factory", icon: "🏭", cost: 8000, tax: 800, taxInterval: 18000, requirements: { wood: 2, steel: 2 } },
-    { name: "sawmill", icon: "🪵🪚", cost: 12000, tax: 1000, taxInterval: 30000, requirements: { cement: 2, tools: 2, energy: 2 } }
+    { name: "sawmill", icon: "🪵🪚", img: 'sawmill.png' || '🪵🪚', cost: 12000, tax: 1000, taxInterval: 30000, requirements: { cement: 2, tools: 2, energy: 2 } },
+    { name: "market", icon: "🛒", cost: 15000, tax: 2000, taxInterval: 30000, requirements: { steel: 2, cement: 2, tools: 2, energy: 3 } }
 ];
+
 
 const materialEmojis = Object.fromEntries(materials.map(m => [m.name, m.emoji]));
 
@@ -24,12 +26,20 @@ function generateGrid() {
 
         const buildingDiv = document.createElement('div');
         buildingDiv.className = 'grid-item building';
-        buildingDiv.innerHTML = `
-            ${building.icon}
-            <div class="progress-container">
-                <span class="money-badge" onclick="collectMoney(${index}, this)">💰</span>
-            </div>
-        `;
+        if (building.img) {
+            buildingDiv.innerHTML = `<img src=${building.img} style="width:40px; height:40px;">
+                <div class="progress-container">
+                    <span class="money-badge" onclick="collectMoney(${index}, this)">💰</span>
+                </div>
+                `;
+        } else {
+            buildingDiv.innerHTML = `
+                ${building.icon}
+                <div class="progress-container">
+                    <span class="money-badge" onclick="collectMoney(${index}, this)">💰</span>
+                </div>
+                `;
+        }
         div.appendChild(buildingDiv);
 
         const costDiv = document.createElement('div');
@@ -40,6 +50,7 @@ function generateGrid() {
                 Buy ₹${building.cost}
             </button>
             <div class="progress-bar"><div class="progress-fill"></div></div>
+            <span class="needs">Tax: ${building.tax}</span>
         `;
         div.appendChild(costDiv);
 
@@ -64,17 +75,9 @@ function purchase(building) {
     }
 
     updateBalance(-nBuilding.cost);
-    addBuildingToGrid(nBuilding);
+    purchased(nBuilding);
 }
 
-// Function to add a building to the purchased grid
-function addBuildingToGrid(building) {
-    const purchasedGrid = document.getElementById("purchasedGrid");
-    const buildingElement = document.createElement("div");
-    buildingElement.classList.add("purchased-building");
-    buildingElement.innerHTML = building.icon;
-    purchasedGrid.appendChild(buildingElement);
-}
 
 function collectMoney(index, btn) {
     if (!btn.classList.contains("enabled")) return;
