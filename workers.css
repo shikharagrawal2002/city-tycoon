@@ -1,0 +1,23 @@
+.hire-btn {
+    background: #4CAF50;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.hire-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.5);
+}
+
+.hire-btn:disabled {
+    background: gray;
+    cursor: not-allowed;
+    opacity: 0.5;
+    box-shadow: none;
+}

@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Building Grid</title>
+    <link rel="stylesheet" href="workers.css">
+    <link rel="stylesheet" href="food.css">
+
 
     <style>
         body {
             background-color: #1e1e2e;
+            margin: 0;
+            padding: 10px;
+            font-family: Arial, sans-serif;
         }
 
         /* Main layout container */
@@ -15,6 +21,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-wrap: wrap; /* Allows wrapping on smaller screens */
             width: 100%;
         }
 
@@ -76,7 +83,6 @@
 
         .money-badge {
             position: absolute;
-            top: -20px;
             left: 0;
             width: 100%;
             height: 100%;
@@ -141,6 +147,7 @@
 
         .progress-container {
             position: relative;
+            top: -20%;
             width: 20px;
             height: 20px;
             border-radius: 50%;
@@ -189,8 +196,9 @@
             background: linear-gradient(to right, #ff3b3b 0%, #444 0%);
             color: white;
             border: none;
-            padding: 8px 12px;
+            padding: 6px 10px;
             border-radius: 8px;
+            width: 80px;
             cursor: pointer;
             font-weight: bold;
             position: relative;
@@ -222,6 +230,11 @@
             position: relative;
             z-index: 1;
         }
+
+        .needs {
+            color: gray;
+            font-size: 9px;;
+        }
     </style>
     
 </head>
@@ -232,8 +245,12 @@
         <div class="content-wrapper">
             <!-- Left Section: Materials -->
             <div class="grid-container">
-                <div class="grid-header">Materials</div>
+                <div class="grid-header">Resources</div>
                 <div class="material-grid" id="materialGrid"></div>
+
+                <div class="grid-header" id="workers">👷 Workers: 5</div>
+                <button id="hireWorkerBtn" class="hire-btn" onclick="hireWorker()" disabled>
+                    Hire Worker ($1000)</button>
             </div>
     
             <!-- Center Section: Buildings -->
@@ -309,18 +326,22 @@
             // updateResourceButtons();
 
             document.querySelectorAll(".gather-btn").forEach(button => {
-                let cost = parseInt(button.parentElement.querySelector(".cost").textContent.replace("Cost: $", ""));
-                button.disabled = balance < cost;
+                let costElement = button.closest(".resource").querySelector(".cost");
+                if (costElement) {
+                    let cost = parseInt(costElement.textContent.replace("Cost: $", ""));
+                    button.disabled = balance < cost;
+                }
             });
 
         }
 
         const materials = [
-            { name: "wood", emoji: "🪵", cost: 50, gatherTime: 4000, qty:1 },
-            { name: "steel", emoji: "🔩", cost: 500, gatherTime: 5000, qty:1 },
-            { name: "cement", emoji: "🏗️", cost: 1000, gatherTime: 6000, qty:0 },
-            { name: "tools", emoji: "🛠️", cost: 2000, gatherTime: 7000, qty:0 },
-            { name: "energy", emoji: "⚡", cost: 5000, gatherTime: 8000, qty:0 }
+            { name: "food", emoji: "🍞", cost: 200, gatherTime: 1500, qty:10, workersRequired:0},
+            { name: "wood", emoji: "🪵", cost: 300, gatherTime: 4000, qty:1, workersRequired:1 },
+            { name: "steel", emoji: "🔩", cost: 500, gatherTime: 5000, qty:1, workersRequired:2 },
+            { name: "cement", emoji: "🏗️", cost: 1000, gatherTime: 6000, qty:0, workersRequired:2 },
+            { name: "tools", emoji: "🛠️", cost: 2000, gatherTime: 7000, qty:0, workersRequired:3 },
+            { name: "energy", emoji: "⚡", cost: 5000, gatherTime: 8000, qty:0, workersRequired:4 }
         ];        
 
         const buildingsData = [
@@ -386,9 +407,24 @@
         }
 
         function startTaxCollection(building, btn) {
+            let progress = 0;
+            btn.parentElement.style.background = `conic-gradient(yellow 0% ${progress}%,
+                    transparent ${progress}% 100%)`;
+            let interval = setInterval(() => {
+                progress += 10;
+                btn.parentElement.style.background = `conic-gradient(yellow 0% ${progress}%,
+                    transparent ${progress}% 100%)`;
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    btn.classList.add('enabled');
+                }
+            }, building.taxInterval/10);
+
+            /*
             setTimeout(() => {
                 btn.classList.add('enabled');
             }, building.taxInterval); // Generates income every 5 seconds
+            */
         }
 
         // Call function to generate grid on page load
@@ -426,6 +462,8 @@
                     button.disabled = balance < material.cost;
                 }
             });
+
+            updateHireButton(); // Check if the Hire button should be enabled/disabled
         }
 </script>
 <script>
@@ -440,10 +478,13 @@
                 <div class="emoji material">${material.emoji}
                     <span class="qty" id="${material.name}">${material.qty}</span></div>
                 <div class="cost">Cost: $${material.cost}</div>
-                <button class="gather-btn" onclick="startGathering(this, ${index})" disabled>
-                    <span class="btn-text">Gather</span>
-                    <div class="progress-bar"></div>
-                </button>
+                <div>
+                    <button class="gather-btn" onclick="startGathering(this, ${index})" disabled>
+                        <span class="btn-text">Gather</span>
+                        <div class="progress-bar"></div>
+                    </button>
+                    <div class="needs">Workers: ${material.workersRequired}</div>
+                </div>
             `;
             grid.appendChild(div);
         });
@@ -451,9 +492,25 @@
 
     function startGathering(button, materialIndex) {
         const material = materials[materialIndex];
+        const foodQty = materials.find(m => m.name === "food").qty;
+
+        // Check if enough workers are available
+        if (workers < material.workersRequired) {
+            alert("Not enough workers to gather this material!");
+            return;
+        }
+
+        if (foodQty < material.workersRequired * foodConsumptionRate) {
+           alert("⚠️ Not enough food! Workers cannot gather.");
+          return;
+        }
 
         if (balance < material.cost) return; // Prevent action if not enough balance
         updateBalance(-material.cost);
+
+        // Reduce available workers
+        workers -= material.workersRequired;
+        updateWorkerDisplay();
 
         button.disabled = true;
         let text = button.querySelector(".btn-text");
@@ -472,10 +529,14 @@
             material.qty += 1;
 
             let qtyElement = document.getElementById(material.name);
-            qtyElement.textContent = parseInt(qtyElement.textContent) + 1;
+            qtyElement.textContent = material.qty;
 
             progressBar.style.width = "0%";
             progressBar.style.transition = "none";
+
+            // Restore workers after collection
+            workers += material.workersRequired;
+            updateWorkerDisplay();
 
             button.disabled = balance < material.cost;
             text.textContent = "Gather";
@@ -486,5 +547,10 @@
 
     createMaterialGrid();
 </script>
+
+<script src="workers.js"></script>
+<script src="food.js"></script>
+
+
 </body>
 </html>
