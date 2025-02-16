@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Grid</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles/resources.css">
+    <link rel="stylesheet" href="styles/workers.css">
+    <link rel="stylesheet" href="styles/upgrades.css">
+    <link rel="stylesheet" href="styles/food.css">    
+</head>
+<body>
+    <div class="grid-header" id="balance">💰 Balance: ₹0</div>
+    <div class="main-container">
+        <div class="section">
+            <div class="grid-container">
+                <div class="grid-header">Resources</div>
+                <div class="material-grid" id="materialGrid"></div>
+            </div>
+            <div class="grid-container">
+                <div class="grid-header" id="workers">👷 Workers: 5</div>
+                <button id="hireWorkerBtn" class="hire-btn" onclick="hireWorker()" disabled>
+                    Hire Worker (₹1000)</button>
+            </div>
+        </div>
+        <div class="section">
+            <!-- Center Section: Buildings -->
+            <div class="grid-container">
+                <div class="grid-header">Buildings</div>
+                <div class="building-grid"></div>
+            </div>
+            <div class="grid-container">
+                <div class="grid-header">Purchased Buildings</div>
+                <div class="purchased-grid" id="purchasedGrid"></div>
+            </div>    
+        </div>
+        <div class="section">
+            <div class="grid-container">
+                <div class="grid-header">Upgrades</div>
+                <div class="upgrade-grid" id="upgradeGrid"></div>
+            </div>
+        </div>
+    </div>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/resources.js"></script>
+    <script src="scripts/buildings.js"></script>
+    <script src="scripts/upgrades.js"></script>
+    <script src="scripts/workers.js"></script>
+    <script src="scripts/food.js"></script>
+    
+    <script>
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        // Call function to generate grid on page load
+        document.addEventListener('DOMContentLoaded',
+            () => {
+                generateGrid();
+                createMaterialGrid();
+            }
+        );
+    </script>
+</body>
+</html>

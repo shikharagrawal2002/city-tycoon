@@ -1,0 +1,170 @@
+body {
+    background-color: #1e1e2e;
+    margin: 0;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+}
+
+.section {
+    display: flex; /* or grid */
+    flex-direction: column; /* Stack containers vertically */
+    gap: 30px; /* Adds space between grid containers */
+}
+  
+/* Main layout container */
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+    width: 100%;
+}
+
+/* Wrapper to align columns */
+.content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Each column */
+.grid-container {
+    background: rgba(255, 255, 255, 0.1);
+    gap: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.grid-header {
+    font-size: 20px;
+    color: yellow;
+}
+
+.building-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 120px);
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.building-item {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 12px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.grid-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.quantity {
+    font-size: 14px;
+    color: yellow;
+}
+
+/* Building Row */
+.building {
+    background: transparent;
+    font-size: 32px;
+    box-shadow: none;
+}
+
+.money-badge {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: gold;
+    color: black;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    opacity: 0.5;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.money-badge.enabled {
+    opacity: 1;
+    pointer-events: auto;
+    animation: pulse 1s infinite alternate;
+}
+
+/* Cost & Required Items Row */
+.cost {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: transparent;
+    box-shadow: none;
+    font-size: 12px;
+}
+
+.buy-btn {
+    background: #ffcc00;
+    color: black;
+    font-weight: bold;
+    border: none;
+    padding: 5px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    font-size: 12px;
+}
+
+.buy-btn:disabled {
+    background: gray;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.buy-btn:hover:enabled {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(255, 204, 0, 0.5);
+}
+
+.required-qty {
+    font-size: 10px;
+    color: lightgray;
+    margin-top: 2px;
+}
+
+.progress-container {
+    position: relative;
+    top: -20%;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: conic-gradient(yellow 0%, transparent 0%);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+    100% { transform: scale(1.1); box-shadow: 0 0 10px rgba(255, 215, 0, 1); }
+}
+
