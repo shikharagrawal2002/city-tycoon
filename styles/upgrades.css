@@ -1,0 +1,27 @@
+.upgrade-item {
+    padding: 8px;
+    border-radius: 8px;
+    text-align: left;
+    transition: transform 0.2s ease-in-out;
+}
+.upgrade-item:hover {
+    transform: scale(1.05);
+}
+.upgrade-button {
+    width: 100%;
+    margin-top: 5px;
+    padding: 8px 12px;
+    background: green;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+.upgrade-button:hover {
+    background: darkgreen;
+}
+.upgrade-button:disabled {
+    background: gray;
+    cursor: not-allowed;
+}
