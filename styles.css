@@ -29,14 +29,14 @@ body {
 
 /* Each column */
 .grid-container {
-    background: rgba(255, 255, 255, 0.1);
+    /* background: rgba(255, 255, 255, 0.1); */
     gap: 10px;
     border-radius: 8px;
     text-align: center;
 }
 
 .grid-header {
-    font-size: 20px;
+    font-size: 15px;
     color: yellow;
 }
 
@@ -168,3 +168,41 @@ body {
     100% { transform: scale(1.1); box-shadow: 0 0 10px rgba(255, 215, 0, 1); }
 }
 
+.collecting {
+    /* Apply both animations simultaneously */
+    animation: progressFill var(--tax-time) linear forwards, conicUpdate var(--tax-time) linear forwards;
+}
+
+/* Keyframes to animate the progress variable */
+@keyframes progressFill {
+    0% { --progress: 0%; }
+    100% { --progress: 100%; }
+}
+
+/* Keyframes to update the conic-gradient background based on --progress */
+@keyframes conicUpdate {
+    0% { 
+        background: conic-gradient(yellow 0% 0%, transparent 0%); 
+    }
+    100% { 
+        background: conic-gradient(yellow 0% var(--progress), transparent var(--progress) 100%); 
+    }
+}
+
+/* 🚀 Mobile-Only Adjustments */
+@media (max-width: 600px) {
+    .building-grid {
+        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); /* Adapts for mobile */
+        gap: 6px; /* Slightly reduced for compact layout */
+    }
+
+    .building-item {
+        padding: 8px;
+        font-size: 10px; /* Smaller text for mobile */
+    }
+
+    .buy-btn {
+        padding: 8px 12px; /* Better touch size */
+        font-size: 11px;
+    }
+}
