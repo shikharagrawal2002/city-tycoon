@@ -1,4 +1,4 @@
-let workers = 5; // Starting number of workers
+let workers = 0; // Starting number of workers
 
 
 function hireWorker() {
@@ -19,7 +19,7 @@ function hireWorker() {
 }
 
 function updateWorkerDisplay() {
-    document.getElementById("workers").textContent = `👷 Workers: ${workers}`;
+    document.getElementById("workers").textContent = `👷 ${workers}`;
 }
 
 function updateHireButton() {

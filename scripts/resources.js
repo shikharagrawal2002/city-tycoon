@@ -17,15 +17,13 @@ function createMaterialGrid() {
         const div = document.createElement("div");
         div.classList.add("resource");
         div.innerHTML = `
-            <div class="emoji material">${material.emoji}
-                <span class="qty" id="${material.name}">${material.qty}</span></div>
-            <div>
-                <button class="gather-btn" onclick="startGathering(this, ${index})" disabled>
-                    <span class="btn-text">Gather (₹${material.cost})</span>
-                    <div class="progress-bar"></div>
-                </button>
-                <div class="needs">Workers: ${material.workersRequired}</div>
-            </div>
+            <button class="gather-btn" onclick="startGathering(this, ${index})">
+                <span class="badge" id="badge-${material.name}">${material.qty}</span>
+                <span class="emoji">${material.emoji}</span>
+                <div class="progress-bar"></div>
+                <span class="cost">₹${material.cost}</span>
+            </button>
+            <div class="below-info">👷: ${material.workersRequired}</div>
         `;
         grid.appendChild(div);
     });
@@ -48,18 +46,27 @@ function startGathering(button, materialIndex) {
       return;
     }
 
-    if (balance < material.cost) return; // Prevent action if not enough balance
-    updateBalance(-material.cost);
+    let upgrade = upgrades.find(u => u.name === `${capitalize(material.name)} Collector`);
+    let maxGatherQty = upgrade && upgrade.count ? upgrade.count : 1;
+
+    let affordableQty = Math.floor(balance / material.cost);
+    let gatherQty = Math.min(maxGatherQty, affordableQty);
+
+    if (gatherQty <= 0) {
+        alert("Not enough balance to gather any materials!");
+        return;
+    }
+
+    // Deduct balance upfront based on how much can be gathered
+    updateBalance(-material.cost * gatherQty);
 
     // Reduce available workers
     workers -= material.workersRequired;
     updateWorkerDisplay();
 
     button.disabled = true;
-    let text = button.querySelector(".btn-text");
     let progressBar = button.querySelector(".progress-bar");
     
-    text.textContent = "Collecting...";
     progressBar.style.width = "0%";
 
     // Start progress effect
@@ -69,23 +76,29 @@ function startGathering(button, materialIndex) {
     }, 10);
 
     setTimeout(() => {
-        material.qty += 1;
-
-        let qtyElement = document.getElementById(material.name);
-        qtyElement.textContent = material.qty;
-
+        material.qty += gatherQty;
+    
+        // Update the quantity badge inside the button
+        let qtyElement = button.querySelector(".badge");
+        if (qtyElement) {
+            qtyElement.textContent = material.qty;
+        }
+    
         progressBar.style.width = "0%";
         progressBar.style.transition = "none";
-
+    
         // Restore workers after collection
         workers += material.workersRequired;
         updateWorkerDisplay();
-
+    
         button.disabled = balance < material.cost;
-        text.textContent = "Gather (₹" + material.cost + ")";
-
+        let text = button.querySelector(".cost");
+        if (text) {
+            text.textContent = `₹${material.cost}`;
+        }
+    
         updateAllButtons();
-    }, material.gatherTime);
+    }, material.gatherTime);    
 }
 
 function updateMaterial(materialName, qty) {
@@ -95,7 +108,7 @@ function updateMaterial(materialName, qty) {
         return;
     }
     material.qty += qty;
-    document.getElementById(materialName).textContent = material.qty;
+    document.getElementById(`badge-${materialName}`).textContent = material.qty;
 }
 
 function checkRequirements(button, material) {
@@ -124,4 +137,8 @@ function checkRequirements(button, material) {
         }
     }
     return true;
+}
+
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
 }

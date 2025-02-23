@@ -17,5 +17,6 @@ function consumeFood() {
 // Start the food consumption cycle every 10 seconds
 setInterval(consumeFood, 10000);
 function updateFoodDisplay() {
-    document.getElementById("food").textContent = materials.find(m => m.name === "food").qty;
+    const foodQty = materials.find(m => m.name === "food").qty;
+    document.getElementById("badge-food").textContent = foodQty;
 }
