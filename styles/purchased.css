@@ -1,0 +1,66 @@
+.purchased-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+}
+
+.icon-wrapper, .purchased-building, .tax-button, .purchased-upgrade-button {
+    display: flex;
+    align-items: center;}
+
+.icon-wrapper {
+    gap: 5px; /* Adjust spacing */
+}
+
+.purchased-building {
+    background: linear-gradient(135deg, #4b6cb7, #182848);
+    gap: 10px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tax-button {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: none;
+    background: gold;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.3s ease-in-out;
+}
+
+.tax-button:enabled {
+    opacity: 1;
+    pointer-events: auto;
+    animation: pulse 1s infinite alternate;
+}
+
+.purchased-upgrade-button {
+    display: flex;
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: none;
+    background: #ffcc00;
+    color: black;
+    /* font-weight: bold; */
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.below-info {
+    color: white;
+    font-size: 10px;
+}
+
+.purchased-upgrade-button:disabled {
+    background-color: #bbb;
+    /* color: #666; */
+    cursor: not-allowed;
+    opacity: 0.5;
+    /* border: 1px solid #999; */
+    /* box-shadow: none; */
+    /* transform: none; */
+    /* position: relative; */
+}

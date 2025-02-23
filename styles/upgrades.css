@@ -1,27 +1,93 @@
-.upgrade-item {
-    padding: 8px;
-    border-radius: 8px;
-    text-align: left;
-    transition: transform 0.2s ease-in-out;
-}
-.upgrade-item:hover {
-    transform: scale(1.05);
-}
-.upgrade-button {
-    width: 100%;
-    margin-top: 5px;
-    padding: 8px 12px;
-    background: green;
+/* Floating CSS */
+.floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #FFD700;  /* Golden color */
     color: white;
-    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
+    font-size: 24px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.menu {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    background: #FFFAF0;  /* Light golden color */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    padding: 10px;
+    display: none;
+    width: 200px;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu li {
+    position: relative;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    background: #FFFACD;  /* Light yellow color */
+    transition: background 0.3s, color 0.3s, transform 0.3s;
+    text-align: center;
     border-radius: 5px;
-    transition: background 0.3s;
+    margin: 5px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
 }
-.upgrade-button:hover {
-    background: darkgreen;
+
+.menu li:last-child {
+    border-bottom: none;
 }
-.upgrade-button:disabled {
-    background: gray;
-    cursor: not-allowed;
+
+.menu li:hover, .submenu li:hover {
+    background: #FFD700;  /* Golden color */
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    right: 100%;
+    top: 0;
+    background: #FFFAF0;  /* Light golden color */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    padding: 5px;
+    width: 100px;
+}
+
+.submenu li {
+    background: #FFD700;
+    font-size: 14px;
+    margin: 10px 10px;
+}
+
+.item-badge {
+    position: absolute;
+    top: -5px;
+    right: 5px;
+    background-color: #FFD700;
+    padding: 1px 5px;
+    font-size: 12px;
+    border-radius: 12px;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    .submenu {
+        max-width: 100%; /* Make the submenu full width on smaller screens */
+        width: 60%; /* Limit width on smaller screens */
+    }
 }
