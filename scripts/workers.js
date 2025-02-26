@@ -19,7 +19,7 @@ function hireWorker() {
 }
 
 function updateWorkerDisplay() {
-    document.getElementById("workers").textContent = `👷 ${workers}`;
+    document.getElementById("workerCount").textContent = `${workers}`;
 }
 
 function updateHireButton() {

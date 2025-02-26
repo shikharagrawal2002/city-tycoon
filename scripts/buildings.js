@@ -1,9 +1,9 @@
 const buildingsData = [
-    { name: "house", icon: "🏠", cost: 1000, tax: 100, taxInterval: 3000, requirements: { steel: 1, wood: 1 }, collector: 0 },
-    { name: "office", icon: "🏢", cost: 3000, tax: 200, taxInterval: 5000, requirements: { cement: 1, energy: 1 }, collector: 0 },
-    { name: "mall", icon: "🏬", cost: 5000, tax: 400, taxInterval: 10000, requirements: { tools: 1, cement: 1 }, collector: 0 },
-    { name: "factory", icon: "🏭", cost: 8000, tax: 800, taxInterval: 18000, requirements: { wood: 2, steel: 2 }, collector: 0 },
-    { name: "sawmill", icon: "🪵🪚", img: 'sawmill.png' || '🪵🪚', cost: 12000, tax: 1000, taxInterval: 30000, requirements: { cement: 2, tools: 2, energy: 2 }, collector: 0 },
+    { name: "house", icon: "🏠", cost: 1000, tax: 100, taxInterval: 3000, requirements: { wood: 1, steel: 1 }, collector: 0 },
+    { name: "office", icon: "🏢", cost: 3000, tax: 200, taxInterval: 5000, requirements: { wood: 1, cement: 1 }, collector: 0 },
+    { name: "mall", icon: "🏬", cost: 5000, tax: 400, taxInterval: 10000, requirements: { cement: 1, tools: 1 }, collector: 0 },
+    { name: "factory", icon: "🏭", cost: 8000, tax: 800, taxInterval: 18000, requirements: { steel: 2, energy: 2 }, collector: 0 },
+    { name: "sawmill", icon: "🪵🪚", img: 'sawmill.png', cost: 12000, tax: 1000, taxInterval: 30000, requirements: { cement: 2, tools: 2, energy: 2 }, collector: 0 },
     { name: "market", icon: "🛒", cost: 15000, tax: 2000, taxInterval: 30000, requirements: { steel: 2, cement: 2, tools: 2, energy: 3 }, collector: 0 }
 ];
 
@@ -45,7 +45,7 @@ function generateGrid() {
                 Buy ₹${building.cost}
             </button>
             <div class="progress-bar"><div class="progress-fill"></div></div>
-            <span class="below-info">Tax: ${building.tax}</span>
+            <span class="below-info">💰 ${building.tax}</span>
         `;
         div.appendChild(costDiv);
 

@@ -5,7 +5,7 @@ const materials = [
     { name: "cement", emoji: "🏗️", cost: 1000, gatherTime: 6000, qty:0, workersRequired:2 },
     { name: "tools", emoji: "🛠️", cost: 2000, gatherTime: 7000, qty:0, workersRequired:3 },
     { name: "energy", emoji: "⚡", cost: 5000, gatherTime: 8000, qty:0, workersRequired:4 },
-    { name: "plank", emoji: "🪵🪚", cost: 1000, gatherTime: 4000, qty:0, workersRequired:1,
+    { name: "plank", img: "woodplank.png", emoji: "🪵🪚", cost: 1000, gatherTime: 4000, qty:0, workersRequired:1,
         requirements: { wood: 1, sawmill:1 }
     },
 ];
@@ -19,7 +19,11 @@ function createMaterialGrid() {
         div.innerHTML = `
             <button class="gather-btn" onclick="startGathering(this, ${index})">
                 <span class="badge" id="badge-${material.name}">${material.qty}</span>
-                <span class="emoji">${material.emoji}</span>
+                <span class="emoji">
+                    ${material.img ? 
+                        `<img src="${material.img}" style="width:50px; height:50px;">` :
+                        material.emoji}
+                </span>
                 <div class="progress-bar"></div>
                 <span class="cost">₹${material.cost}</span>
             </button>
