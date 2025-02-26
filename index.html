@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Building Grid</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/buildings.css">
     <link rel="stylesheet" href="styles/resources.css">
     <link rel="stylesheet" href="styles/workers.css">
     <link rel="stylesheet" href="styles/upgrades.css">
@@ -12,32 +14,31 @@
     <link rel="stylesheet" href="styles/purchased.css">    
 </head>
 <body>
-    <div class="grid-header" id="balance">💰 Balance: ₹0</div>
-    <div class="main-container">
-        <div class="section">
-            <div class="grid-container">
-                <div class="grid-header">Resources</div>
-                <div class="material-grid" id="materialGrid"></div>
-            </div>
-            <div class="grid-container">
-                <div class="grid-header" id="workers">👷 0</div>
-                <button id="hireWorkerBtn" class="hire-btn" onclick="hireWorker()" disabled>
-                    ₹1000</button>
+    <div class="top">
+        <span id="balance">💰 Balance: ₹0</span>
+        <span class="floating-toolbar">
+            <span class="toolbar-emoji">👷</span>
+            <div class="toolbar-center">
+                <span class="toolbar-count" id="workerCount">0</span>
+                <span class="toolbar-cost">💰 ₹<span id="hireCost">1000</span></span>
+            </div> 
+            <button class="toolbar-btn" id="hireWorkerBtn" onclick="hireWorker()">➕</button>
+        </span>
+    </div>
+
+    <!-- <div class="grid-header">Resources</div> -->
+
+    <div class="middle">
+        <div class="left">
+            <div class="grid" id="materialGrid">
             </div>
         </div>
-        <div class="section">
-            <!-- Center Section: Buildings -->
-            <div class="grid-container">
-                <div class="grid-header">Buildings</div>
-                <div class="building-grid" id="buildingGrid"></div>
-            </div>
-            <div class="grid-container">
-                <div class="grid-header">Purchased Buildings</div>
-                <div class="purchased-grid" id="purchasedGrid"></div>
-            </div>    
+        <div class="right">
+            <div class="purchased-grid" id="purchasedGrid"></div>
         </div>
     </div>
 
+    <div class="bottom building-grid" id="buildingGrid"></div>
 
     <div class="floating-button" id="floatBtn">⬆</div>
     <div class="menu" id="menu"></div>
