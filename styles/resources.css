@@ -1,17 +1,11 @@
-
-
 .resource {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-    /* background: linear-gradient(145deg, #222, #333); */
+    display: flex;
+    background: linear-gradient(145deg, #222, #333);
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
     border-radius: 12px;
     align-items: center;
     justify-content: center;
     position: relative;
-    width: min(25vw, 100%);
-    max-width: 120px;
-    overflow: auto;
 }
 
 .emoji {
@@ -101,8 +95,8 @@
     /* border: none; */
     /* padding: 10px; */
     border-radius: 50%;
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     cursor: pointer;
     transition: background 0.3s ease, transform 0.2s ease;
     font-size: 24px;

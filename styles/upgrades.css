@@ -23,9 +23,9 @@
     background: #FFFAF0;  /* Light golden color */
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     border-radius: 8px;
-    padding: 10px;
+    padding: 6px;
     display: none;
-    width: 200px;
+    /* width: 200px; */
 }
 
 .menu ul {
@@ -36,7 +36,7 @@
 
 .menu li {
     position: relative;
-    padding: 10px;
+    padding: 8px;
     cursor: pointer;
     border-bottom: 1px solid #ddd;
     background: #FFFACD;  /* Light yellow color */
@@ -45,7 +45,7 @@
     border-radius: 5px;
     margin: 5px 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-
+    font-size: 12px;
 }
 
 .menu li:last-child {
@@ -65,7 +65,7 @@
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     border-radius: 8px;
     padding: 5px;
-    width: 100px;
+    width: 100%;
 }
 
 .submenu li {

@@ -1,23 +1,56 @@
-.hire-btn {
-    background: #4CAF50;
+/* Floating Toolbar */
+.floating-toolbar {
+    display: flex;
+    align-items: center;
+    background: #333;
+    padding: 5px 5px;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Worker Emoji */
+.toolbar-emoji {
+    font-size: 25px;
     color: white;
+}
+
+/* Center Section */
+.toolbar-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 6px;
+}
+
+/* Worker Count */
+.toolbar-count {
+    font-size: 14px;
     font-weight: bold;
+    color: white;
+}
+
+/* Cost Background */
+.toolbar-cost {
+    font-size: 12px;
+    color: white;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 6px;
+    border-radius: 8px;
+}
+
+/* Add Worker Button */
+.toolbar-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+    border-radius: 50%;
     border: none;
-    padding: 0px 10px;
-    border-radius: 5px;
     cursor: pointer;
-    font-size: 10px;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    transition: background 0.2s ease-in-out;
+    background: #0f0;
 }
 
-.hire-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.5);
+.toolbar-btn:hover {
+    opacity: 0.8;
 }
 
-.hire-btn:disabled {
-    background: gray;
-    cursor: not-allowed;
-    opacity: 0.5;
-    box-shadow: none;
-}

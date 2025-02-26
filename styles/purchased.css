@@ -1,6 +1,6 @@
 .purchased-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    grid-template-columns: repeat(auto, 1fr); /* 2 columns */
 }
 
 .icon-wrapper, .purchased-building, .tax-button, .purchased-upgrade-button {
