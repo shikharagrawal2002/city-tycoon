@@ -29,10 +29,10 @@ function generateGrid() {
         buildingDiv.className = 'grid-item building';
         if (building.img) {
             buildingDiv.innerHTML = `<img src=${building.img} style="width:40px; height:40px;">
-            `;
+            <span class="below-info">💰 ${building.tax}</span>`;
         } else {
             buildingDiv.innerHTML = `
-                ${building.icon}
+                ${building.icon}<span class="below-info">💰 ${building.tax}</span>
                 `;
         }
         div.appendChild(buildingDiv);
@@ -45,7 +45,7 @@ function generateGrid() {
                 Buy ₹${building.cost}
             </button>
             <div class="progress-bar"><div class="progress-fill"></div></div>
-            <span class="below-info">💰 ${building.tax}</span>
+            
         `;
         div.appendChild(costDiv);
 

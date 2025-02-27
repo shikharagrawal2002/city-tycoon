@@ -20,6 +20,7 @@ function hireWorker() {
 
 function updateWorkerDisplay() {
     document.getElementById("workerCount").textContent = `${workers}`;
+    updateAllButtons();
 }
 
 function updateHireButton() {

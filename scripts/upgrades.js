@@ -69,7 +69,9 @@ function createMenu() {
             subMenu.classList.add("submenu");
             buildingsData.forEach(item => {
                 const subMenuItem = document.createElement("li");
-                subMenuItem.innerText = `${item.icon}${capitalize(item.name)}`;
+                subMenuItem.innerHTML = item.img
+                ? `<img src=${item.img} style='width:20px; height:20px;'>${capitalize(item.name)}`
+                : `${item.icon}${capitalize(item.name)}`;
                 addBadge(subMenuItem, item.cost);
                 subMenuItem.onclick = () => {
                     closeMenu();

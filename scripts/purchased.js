@@ -16,14 +16,20 @@ function addBuildingToGrid(building, index) {
     // Use Document Fragment to avoid multiple reflows
     const fragment = document.createDocumentFragment();
 
-    // Wrapper for icon and tax button
+    // Wrapper for icon and level info
     const iconWrapper = document.createElement("div");
     iconWrapper.classList.add("icon-wrapper");
 
     // Building icon
     const iconElement = document.createElement("div");
-    iconElement.innerHTML = building.ref.icon;
+    iconElement.innerHTML = building.ref.img 
+        ? `<img src=${building.ref.img} style="width:40px; height:40px;">`
+        : building.ref.icon;
     iconElement.classList.add("grid-item", "building");
+
+    const levelInfo = document.createElement("span");
+    levelInfo.classList.add("building-level", "level-info");
+    levelInfo.innerText = `Level: ${building.level}`;
 
     // Tax Collect Button + Tax Value
     const taxDiv = document.createElement("div");
@@ -41,7 +47,6 @@ function addBuildingToGrid(building, index) {
 
     // Append icon and tax button next to each other
     iconWrapper.appendChild(iconElement);
-    iconWrapper.appendChild(taxDiv);
 
     // Upgrade button
     const upgradeDiv = document.createElement("div");
@@ -50,15 +55,18 @@ function addBuildingToGrid(building, index) {
     upgradeButton.innerText = `⬆ Upgrade ₹${building.ref.cost * building.level}`;
     upgradeButton.addEventListener("click", () => upgradeBuilding(building, upgradeButton));
 
-    const levelInfo = document.createElement("span");
-    levelInfo.classList.add("building-level", "below-info");
-    levelInfo.innerText = `Level: ${building.level}`;
+    const requirementDiv = document.createElement('div');
+    requirementDiv.className = 'required-qty';
+    requirementDiv.textContent = Object.entries(building.ref.requirements)
+        .map(([key, val]) => `${materialEmojis[key]} x${val}`).join(', ');
 
+    upgradeDiv.appendChild(requirementDiv);
     upgradeDiv.appendChild(upgradeButton);
-    upgradeDiv.appendChild(levelInfo);
+    iconWrapper.appendChild(levelInfo);
 
     // Append elements
     fragment.appendChild(iconWrapper);
+    fragment.appendChild(taxDiv);
     fragment.appendChild(upgradeDiv);
     buildingElement.appendChild(fragment);
 
@@ -89,10 +97,38 @@ function collectTax(building, button) {
     }, 100);
 }
 
+function getMaterialQty(materialName) {
+    const material = materials.find(m => m.name === materialName);
+    return material ? material.qty : 0;
+}
+
+function requirementDiv() {
+
+}
+
 // Function to simulate upgrade progress
 function upgradeBuilding(building, button) {
-    if (balance < building.ref.cost * building.level) return;
-    updateBalance(-building.ref.cost * building.level);
+    const upgradeCost = building.ref.cost * building.level;
+    const requiredMaterials = Object.entries(building.ref.requirements).reduce((acc, [key, val]) => {
+        acc[key] = val * building.level;
+        return acc;
+    }, {});
+
+    if (balance < upgradeCost) return;
+
+    for (const [material, qty] of Object.entries(requiredMaterials)) {
+        if (getMaterialQty(material) < qty) {
+            alert(`Not enough ${materialEmojis[material]} to upgrade! Need ${qty}.`);
+            return;
+        }
+    }
+
+    for (const [material, qty] of Object.entries(requiredMaterials)) {
+        updateMaterial(material, -qty);
+    }
+
+    updateBalance(-upgradeCost);
+
     button.disabled = true;
     button.innerText = "Upgrading...";
 
@@ -106,11 +142,18 @@ function upgradeBuilding(building, button) {
             button.disabled = false;
             button.style.opacity = 1;
             building.level++;
-            button.innerText = `⬆ Upgrade ₹${building.ref.cost * building.level}`;
-            const levelDiv = button.parentElement.querySelector(".building-level");
+            button.innerText = `⬆ Upgrade ₹${
+                convertToINRFormat(Math.ceil(building.ref.cost * Math.pow(1.5, building.level)))}`;
+            const buildingDiv = button.closest(".purchased-building");
+            const levelDiv = buildingDiv.querySelector(".building-level");
             levelDiv.innerText = `Level: ${building.level}`;
-            const taxSpan = button.closest(".purchased-building").querySelector(".tax-info");
+            const taxSpan = buildingDiv.querySelector(".tax-info");
             taxSpan.innerText = `₹${building.ref.tax * building.level}`;
+
+            const requirementDiv = buildingDiv.querySelector(".required-qty");
+            requirementDiv.textContent = Object.entries(building.ref.requirements)
+                .map(([key, val]) => `${materialEmojis[key]} x${val * building.level}`)
+                .join(', ');
         }
     }, 300);
 }

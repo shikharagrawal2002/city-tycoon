@@ -127,20 +127,30 @@ function checkRequirements(button, material) {
                 let buildingCount = purchasedData.filter(m => m.name === req).length || 0;
 
                 if (buildingCount < requiredQty) {
-                    alert(`⚠️ Not enough ${req}! You need ${requiredQty} to gather ${material.name}.`);
                     return false;
                 }
             } else {
                 // Check if it's a material requirement
                 let reqMaterial = materials.find(m => m.name === req);
                 if (!reqMaterial || reqMaterial.qty < requiredQty) {
-                    alert(`⚠️ Not enough ${req}! You need ${requiredQty} to gather ${material.name}.`);
                     return false;
                 }
             }
         }
     }
     return true;
+}
+
+function updateResourceButtons() {
+    const buttons = document.querySelectorAll(".gather-btn");
+    buttons.forEach((button, index) => {
+        const material = materials[index];
+        const canAfford = balance >= material.cost;
+        const hasWorkers = workers >= material.workersRequired;
+        const meetsRequirements = checkRequirements(button, material);
+        
+        button.disabled = !(canAfford && hasWorkers && meetsRequirements);
+    });
 }
 
 function capitalize(str) {
