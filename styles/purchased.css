@@ -8,7 +8,8 @@
     align-items: center;}
 
 .icon-wrapper {
-    gap: 5px; /* Adjust spacing */
+    /* gap: 5px; */
+    flex-direction: column;
 }
 
 .purchased-building {
@@ -39,7 +40,7 @@
 
 .purchased-upgrade-button {
     display: flex;
-    padding: 8px 16px;
+    padding: 8px 8px;
     border-radius: 5px;
     border: none;
     background: #ffcc00;
@@ -52,6 +53,14 @@
 .below-info {
     color: white;
     font-size: 10px;
+    background: grey;
+    border-radius: 15px;
+    padding: 2px;
+}
+
+.level-info {
+    color: white;
+    font-size: 9px;
 }
 
 .purchased-upgrade-button:disabled {

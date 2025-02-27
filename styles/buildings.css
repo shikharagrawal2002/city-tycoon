@@ -17,8 +17,8 @@
 
 .required-qty {
     font-size: 10px;
-    color: maroon;
+    color: white;
     padding: 0px 5px;
     border-radius: 12px;
-    background: darkgoldenrod;
+    background: linear-gradient(145deg, #222, #333);
 }
