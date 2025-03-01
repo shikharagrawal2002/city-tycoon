@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="styles/workers.css">
     <link rel="stylesheet" href="styles/upgrades.css">
     <link rel="stylesheet" href="styles/food.css">    
-    <link rel="stylesheet" href="styles/purchased.css">    
+    <link rel="stylesheet" href="styles/purchased.css">
+    <link rel="stylesheet" href="styles/conversion.css">    
+ 
 </head>
 <body>
     <div class="top">
@@ -30,8 +32,7 @@
 
     <div class="middle">
         <div class="left">
-            <div class="grid" id="materialGrid">
-            </div>
+            <div class="grid" id="materialGrid"></div>
         </div>
         <div class="right">
             <div class="purchased-grid" id="purchasedGrid"></div>
@@ -39,6 +40,21 @@
     </div>
 
     <div class="bottom building-grid" id="buildingGrid"></div>
+
+    <button class="fab-button" onclick="toggleConversionBox()">🔄</button>
+    <div class="conversion-container" id="conversionBox">
+        <div class="slot-container">
+            <div class="slot" id="inputSlot" ondragover="event.preventDefault()" ondrop="dropResource(event)"></div>
+            <button class="convert-button" onclick="processConversion()">Convert</button>
+            <div class="slot" id="outputSlot"></div>
+        </div>
+        <div class="resource-1-grid">
+            <div class="resource-1" draggable="true" ondragstart="drag(event)" id="wood">🌲 Wood</div>
+            <div class="resource-1" draggable="true" ondragstart="drag(event)" id="stone">⛰️ Stone</div>
+            <div class="resource-1" draggable="true" ondragstart="drag(event)" id="metal">⚙️ Metal</div>
+            <div class="resource-1" draggable="true" ondragstart="drag(event)" id="gold">🏅 Gold Bars</div>
+        </div>
+    </div>
 
     <div class="floating-button" id="floatBtn">⬆</div>
     <div class="menu" id="menu"></div>
@@ -50,13 +66,10 @@
     <script src="scripts/workers.js"></script>
     <script src="scripts/food.js"></script>
     <script src="scripts/purchased.js"></script>
+    <script src="scripts/conversion.js"></script>
 
     
     <script>
-        function capitalize(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-        }
-
         // Call function to generate grid on page load
         document.addEventListener('DOMContentLoaded',
             () => {
