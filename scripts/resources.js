@@ -1,11 +1,11 @@
 const materials = [
-    { name: "food", emoji: "🍞", cost: 200, gatherTime: 1500, qty:10, workersRequired:0},
-    { name: "wood", emoji: "🪵", cost: 300, gatherTime: 4000, qty:1, workersRequired:1 },
-    { name: "steel", emoji: "🔩", cost: 500, gatherTime: 5000, qty:1, workersRequired:2 },
-    { name: "cement", emoji: "🏗️", cost: 1000, gatherTime: 6000, qty:0, workersRequired:2 },
-    { name: "tools", emoji: "🛠️", cost: 2000, gatherTime: 7000, qty:0, workersRequired:3 },
-    { name: "energy", emoji: "⚡", cost: 5000, gatherTime: 8000, qty:0, workersRequired:4 },
-    { name: "plank", img: "woodplank.png", emoji: "🪵🪚", cost: 1000, gatherTime: 4000, qty:0, workersRequired:1,
+    { name: "food", icon: "🍞", cost: 200, gatherTime: 1500, qty:10, workersRequired:0 },
+    { name: "wood", icon: "🪵", cost: 300, gatherTime: 4000, qty:1, workersRequired:1, collector: 0 },
+    { name: "steel", icon: "🔩", cost: 500, gatherTime: 5000, qty:1, workersRequired:2, collector: 0 },
+    { name: "cement", icon: "🏗️", cost: 1000, gatherTime: 6000, qty:0, workersRequired:2 },
+    { name: "tools", icon: "🛠️", cost: 2000, gatherTime: 7000, qty:0, workersRequired:3 },
+    { name: "energy", icon: "⚡", cost: 5000, gatherTime: 8000, qty:0, workersRequired:4 },
+    { name: "plank", img: "woodplank.png", icon: "🪵🪚", cost: 1000, gatherTime: 4000, qty:0, workersRequired:1,
         requirements: { wood: 1, sawmill:1 }
     },
 ];
@@ -16,13 +16,13 @@ function createMaterialGrid() {
     materials.forEach((material, index) => {
         const div = document.createElement("div");
         div.classList.add("resource");
-        div.innerHTML = `
+            div.innerHTML = `
             <button class="gather-btn" onclick="startGathering(this, ${index})">
                 <span class="badge" id="badge-${material.name}">${material.qty}</span>
                 <span class="emoji">
                     ${material.img ? 
                         `<img src="${material.img}" style="width:50px; height:50px;">` :
-                        material.emoji}
+                        material.icon}
                 </span>
                 <div class="progress-bar"></div>
                 <span class="cost">₹${material.cost}</span>
@@ -102,6 +102,11 @@ function startGathering(button, materialIndex) {
         }
     
         updateAllButtons();
+
+        if (material.collector) {
+            console.log("Gathering Click"+material.name);
+            button.dispatchEvent(new Event("click"));
+        }
     }, material.gatherTime);    
 }
 

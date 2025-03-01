@@ -1,7 +1,7 @@
 const upgrades = [
-    { name: "Tax Collector", emoji: "💰", cost: 10000, submenu: buildingsData },
+    { name: "Tax Collector", emoji: "💰", cost: 0, submenu: buildingsData },
     { name: "Food Collector", emoji: "🍖", cost: 2000, badge: 2000, count: 0 },
-    { name: "Upgrade Buildings", emoji: "🏗️", cost: 50000 },
+    { name: "Resource Collector", emoji: "🏗️", cost: 50000, submenu: materials },
     { name: "Weapon Smith", emoji: "⚔️", cost: 40 },
     { name: "Armor Smith", emoji: "🛡️", cost: 35 },
     { name: "Magic Tower", emoji: "🪄", cost: 60 },
@@ -19,7 +19,11 @@ function taxCollector(building, btn) {
     updateBalance(-building.cost);
     building.collector = 1;
     btn.disabled = true;
-    const menu = document.getElementById('taxMenu');
+}
+
+function resourceCollector(resource, btn) {
+    resource.collector = 1;
+    btn.disabled = true;
 }
 
 function upgradeItem(name) {
@@ -67,15 +71,22 @@ function createMenu() {
             mainMenuItem.onclick = (event) => toggleSubmenu(event, mainMenuItem);
             const subMenu = document.createElement("ul");
             subMenu.classList.add("submenu");
-            buildingsData.forEach(item => {
+            item.submenu.forEach(subItem => {
                 const subMenuItem = document.createElement("li");
-                subMenuItem.innerHTML = item.img
-                ? `<img src=${item.img} style='width:20px; height:20px;'>${capitalize(item.name)}`
-                : `${item.icon}${capitalize(item.name)}`;
-                addBadge(subMenuItem, item.cost);
-                subMenuItem.onclick = () => {
-                    closeMenu();
-                    taxCollector(item, subMenuItem);
+                subMenuItem.innerHTML = subItem.img
+                ? `<img src=${subItem.img} style='width:20px; height:20px;'>${capitalize(subItem.name)}`
+                : `${subItem.icon}${capitalize(subItem.name)}`;
+                addBadge(subMenuItem, subItem.cost);
+                if (item.name === "Tax Collector") {
+                    subMenuItem.onclick = () => {
+                        closeMenu();
+                        taxCollector(subItem, subMenuItem);
+                    }    
+                } else if (item.name === "Resource Collector") {
+                    subMenuItem.onclick = () => {
+                        closeMenu();
+                        resourceCollector(subItem, subMenuItem);
+                    }
                 }
                 subMenu.appendChild(subMenuItem);
             });

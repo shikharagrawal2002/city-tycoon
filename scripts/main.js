@@ -55,3 +55,48 @@ function convertToINRFormat(num) {
         return num.toString(); // Less than 1000, return as is
     }
 }
+
+function makeMenuDraggable() {
+    const menu = document.getElementById("floatBtn");
+    let offsetX, offsetY, isDragging = false;
+
+    menu.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        offsetX = e.clientX - menu.getBoundingClientRect().left;
+        offsetY = e.clientY - menu.getBoundingClientRect().top;
+        menu.style.cursor = "grabbing";
+    });
+
+    document.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        menu.style.left = `${e.clientX - offsetX}px`;
+        menu.style.top = `${e.clientY - offsetY}px`;
+        menu.style.bottom = "auto"; // Reset bottom so it doesn't interfere
+        menu.style.right = "auto";
+    });
+
+    document.addEventListener("mouseup", () => {
+        isDragging = false;
+        menu.style.cursor = "grab";
+    });
+
+    menu.addEventListener("touchstart", (e) => {
+        isDragging = true;
+        offsetX = e.touches[0].clientX - menu.getBoundingClientRect().left;
+        offsetY = e.touches[0].clientY - menu.getBoundingClientRect().top;
+    });
+    
+    document.addEventListener("touchmove", (e) => {
+        if (!isDragging) return;
+        menu.style.left = `${e.touches[0].clientX - offsetX}px`;
+        menu.style.top = `${e.touches[0].clientY - offsetY}px`;
+    });
+    
+    document.addEventListener("touchend", () => {
+        isDragging = false;
+    });
+    
+}
+
+// Call function when the page loads
+document.addEventListener("DOMContentLoaded", makeMenuDraggable);

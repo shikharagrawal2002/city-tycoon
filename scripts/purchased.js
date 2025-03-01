@@ -4,6 +4,9 @@ function purchased(building) {
     const newPurchase = {level: 1, ref: building}; 
     purchasedData.push(newPurchase);
     addBuildingToGrid(newPurchase, purchasedData.length - 1);
+
+    // Update Upgrade Button State
+    updateAllButtons();
 }
 
 // Function to add a building to the purchased grid
@@ -27,6 +30,7 @@ function addBuildingToGrid(building, index) {
         : building.ref.icon;
     iconElement.classList.add("grid-item", "building");
 
+    // Level info
     const levelInfo = document.createElement("span");
     levelInfo.classList.add("building-level", "level-info");
     levelInfo.innerText = `Level: ${building.level}`;
@@ -90,7 +94,6 @@ function collectTax(building, button) {
             updateBalance(building.ref.tax * building.level);
 
             if (building.ref.collector) {
-                console.log("event dispatch");
                 button.dispatchEvent(new Event("click"));
             }
         }
@@ -102,12 +105,10 @@ function getMaterialQty(materialName) {
     return material ? material.qty : 0;
 }
 
-function requirementDiv() {
-
-}
-
 // Function to simulate upgrade progress
 function upgradeBuilding(building, button) {
+    if (button.disabled) return;
+
     const upgradeCost = building.ref.cost * building.level;
     const requiredMaterials = Object.entries(building.ref.requirements).reduce((acc, [key, val]) => {
         acc[key] = val * building.level;
@@ -154,6 +155,8 @@ function upgradeBuilding(building, button) {
             requirementDiv.textContent = Object.entries(building.ref.requirements)
                 .map(([key, val]) => `${materialEmojis[key]} x${val * building.level}`)
                 .join(', ');
+
+            updateAllButtons();
         }
     }, 300);
 }
@@ -164,8 +167,21 @@ function updatePurchasedButtons() {
         const buildingId = btn.closest('.purchased-building').dataset.id;
         const building = purchasedData[buildingId];
         const totalCost = building.ref.cost * building.level;
+        const requirements = building.ref.requirements;
+
+        let hasEnoughResources = true;
+
+        if (requirements) {
+            for (const resource in requirements) {
+                const material = materials.find(m => m.name === resource);
+                if (!material || material.qty < requirements[resource] * building.level) {
+                    hasEnoughResources = false;
+                    break;
+                }
+            }
+        }
         
-        if (balance >= totalCost) {
+        if (balance >= totalCost && hasEnoughResources) {
             btn.disabled = false;
             // btn.innerText = `⬆ Upgrade ₹${totalCost}`;
         } else {

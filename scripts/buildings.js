@@ -8,7 +8,7 @@ const buildingsData = [
 ];
 
 
-const materialEmojis = Object.fromEntries(materials.map(m => [m.name, m.emoji]));
+const materialEmojis = Object.fromEntries(materials.map(m => [m.name, m.icon]));
 
 function generateGrid() {
     const gridContainer = document.querySelector('.building-grid');
