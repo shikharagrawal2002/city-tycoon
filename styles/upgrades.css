@@ -1,8 +1,8 @@
 /* Floating CSS */
 .floating-button {
     position: fixed;
-    bottom: 20px;
-    right: 10px;
+    bottom: 160px;
+    right: 20px;
     background-color: #FFD700;  /* Golden color */
     color: white;
     width: 60px;

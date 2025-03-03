@@ -73,7 +73,7 @@
 }
 .fab-button {
     position: fixed;
-    bottom: 20px;
+    bottom: 90px;
     right: 20px;
     background: #d4af37;
     color: white;
@@ -89,6 +89,7 @@
     transition: 0.3s;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
 }
+
 .fab-button:hover {
     background: #b99726;
 }

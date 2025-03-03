@@ -87,6 +87,23 @@ body {
     font-weight: bold;
 }
 
+.progress-tab {
+    margin-left: 20px;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.progress-tab h3 {
+    margin: 0;
+    font-size: 14px;
+    color: #ffd700;
+}
+
 /* Adjustments for Mobile Portrait Mode */
 @media (max-width: 768px) and (orientation: portrait) {
     .bottom {
@@ -99,7 +116,7 @@ body {
 @media (max-width: 1024px) and (orientation: landscape) {
     .bottom {
         max-height: 45vh;
-        min-height: 30vh;
+        min-height: 15vh;
         padding: 5px;
     }
 }
