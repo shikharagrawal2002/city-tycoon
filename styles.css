@@ -20,10 +20,6 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
     text-align: center;
 }
-/* 
-.grid-item {
-
-} */
 
 .quantity {
     font-size: 14px;
@@ -132,4 +128,109 @@
         padding: 8px 12px; /* Better touch size */
         font-size: 11px;
     }
+}
+
+/* FAB */
+.fab-build {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #007bff;
+    color: white;
+    font-size: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Grid Menu */
+.grid-menu {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 190px;
+    background: white;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: none;
+    overflow: hidden;
+}
+
+.grid-scroll {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-auto-flow: column;
+    gap: 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+}
+
+.grid-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.building-btn {
+    width: 70px;
+    height: 70px;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #f9f9f9;
+}
+
+/* Scroll indicators */
+.scroll-indicator {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 5px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: none;
+    z-index: 1;
+}
+
+.scroll-indicator.scroll-left {
+    left: 5px;
+}
+
+.scroll-indicator.scroll-right {
+    right: 5px;
+}
+
+/* Details popup */
+.details-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: none;
+    width: 300px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    display: none;
 }

@@ -26,6 +26,14 @@
             </div> 
             <button class="toolbar-btn" id="hireWorkerBtn" onclick="hireWorker()">➕</button>
         </span>
+        
+        <!-- Progression Tab -->
+        <div id="progressTab" class="progress-tab">
+            <h3>Progress</h3>
+            <p>Stage: <span id="currentStage">1</span></p>
+            <p>Next Goal: <span id="nextGoal">Earn ₹10,000</span></p>
+            <p>Upcoming Unlocks: <span id="nextUnlocks">Factory, +5 Workers</span></p>
+        </div>
     </div>
 
     <!-- <div class="grid-header">Resources</div> -->
@@ -38,7 +46,7 @@
             <div class="purchased-grid" id="purchasedGrid"></div>
         </div>
     </div>
-
+      
     <div class="bottom building-grid" id="buildingGrid"></div>
 
     <button class="fab-button" onclick="toggleConversionBox()">🔄</button>
@@ -59,6 +67,25 @@
     <div class="floating-button" id="floatBtn">⬆</div>
     <div class="menu" id="menu"></div>
 
+    <div class="fab-build">🔨</div>
+
+    <div class="grid-menu">
+      <div class="scroll-indicator scroll-left" id="scrollLeft">◀️</div>
+      <div class="scroll-indicator scroll-right" id="scrollRight">▶️</div>
+      <div class="grid-scroll" id="gridContainer"></div>
+    </div>
+    
+    <div class="overlay" id="overlay"></div>
+    
+    <div class="details-popup" id="detailsPopup">
+      <h2 id="buildingName"></h2>
+      <p id="buildingCost"></p>
+      <p id="buildingTax"></p>
+      <h3>Requirements:</h3>
+      <ul id="buildingRequirements"></ul>
+      <button id="buildButton">Build</button>
+    </div>
+
     <script src="scripts/main.js"></script>
     <script src="scripts/resources.js"></script>
     <script src="scripts/buildings.js"></script>
@@ -67,16 +94,7 @@
     <script src="scripts/food.js"></script>
     <script src="scripts/purchased.js"></script>
     <script src="scripts/conversion.js"></script>
+    <script src="scripts/progress.js"></script>
 
-    
-    <script>
-        // Call function to generate grid on page load
-        document.addEventListener('DOMContentLoaded',
-            () => {
-                generateGrid();
-                createMaterialGrid();
-            }
-        );
-    </script>
 </body>
 </html>
