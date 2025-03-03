@@ -1,22 +1,17 @@
 let foodConsumptionRate = 1; // Food consumed per worker per cycle
 
 function consumeFood() {
-    const food = materials.find(m => m.name === "food");
+    const food = resources['food'];
     if (food && food.qty >= workers * foodConsumptionRate) {
         // Deduct food based on workers
-        food.qty -= workers * foodConsumptionRate;
-        updateFoodDisplay();
+        updateMaterial('food', -(workers * foodConsumptionRate));
     } else {
         alert("⚠️ Not enough food! Workers stopped working.");
-        workers = 0; // Workers stop until food is available
+        workers = 0;
         updateWorkerDisplay();
     }
-    updateAllButtons();
+    scheduleUpdateAllButtons();
 }
 
 // Start the food consumption cycle every 10 seconds
 setInterval(consumeFood, 10000);
-function updateFoodDisplay() {
-    const foodQty = materials.find(m => m.name === "food").qty;
-    document.getElementById("badge-food").textContent = foodQty;
-}

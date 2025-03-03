@@ -1,4 +1,4 @@
-const materials = [
+const materialsData = [
     { name: "food", icon: "🍞", cost: 200, gatherTime: 1500, qty:10, workersRequired:0 },
     { name: "wood", icon: "🪵", cost: 300, gatherTime: 4000, qty:1, workersRequired:1, collector: 0 },
     { name: "steel", icon: "🔩", cost: 500, gatherTime: 5000, qty:1, workersRequired:2, collector: 0 },
@@ -10,10 +10,13 @@ const materials = [
     },
 ];
 
+const resources = {};
+materialsData.forEach(m => resources[m.name] = m);
+
 function createMaterialGrid() {
     const grid = document.getElementById("materialGrid");
     grid.innerHTML = "";
-    materials.forEach((material, index) => {
+    materialsData.forEach((material, index) => {
         const div = document.createElement("div");
         div.classList.add("resource");
             div.innerHTML = `
@@ -34,8 +37,8 @@ function createMaterialGrid() {
 }
 
 function startGathering(button, materialIndex) {
-    const material = materials[materialIndex];
-    const foodQty = materials.find(m => m.name === "food").qty;
+    const material = materialsData[materialIndex];
+    const foodQty = resources['food'].qty;
 
     if (!checkRequirements(button, material)) { return;}
 
@@ -65,8 +68,7 @@ function startGathering(button, materialIndex) {
     updateBalance(-material.cost * gatherQty);
 
     // Reduce available workers
-    workers -= material.workersRequired;
-    updateWorkerDisplay();
+    updateWorkers(-material.workersRequired);
 
     button.disabled = true;
     let progressBar = button.querySelector(".progress-bar");
@@ -80,28 +82,21 @@ function startGathering(button, materialIndex) {
     }, 10);
 
     setTimeout(() => {
-        material.qty += gatherQty;
-    
-        // Update the quantity badge inside the button
-        let qtyElement = button.querySelector(".badge");
-        if (qtyElement) {
-            qtyElement.textContent = material.qty;
-        }
+        updateMaterial(material.name, gatherQty);
     
         progressBar.style.width = "0%";
         progressBar.style.transition = "none";
     
         // Restore workers after collection
-        workers += material.workersRequired;
-        updateWorkerDisplay();
-    
+        updateWorkers(material.workersRequired);
+
         button.disabled = balance < material.cost;
         let text = button.querySelector(".cost");
         if (text) {
             text.textContent = `₹${material.cost}`;
         }
     
-        updateAllButtons();
+        scheduleUpdateAllButtons();
 
         if (material.collector) {
             console.log("Gathering Click"+material.name);
@@ -111,7 +106,7 @@ function startGathering(button, materialIndex) {
 }
 
 function updateMaterial(materialName, qty) {
-    const material = materials.find(m => m.name === materialName);
+    const material = resources[materialName];
     if (!material) {
         alert("Error: Material "+ materialName + " Not Found");
         return;
@@ -136,7 +131,7 @@ function checkRequirements(button, material) {
                 }
             } else {
                 // Check if it's a material requirement
-                let reqMaterial = materials.find(m => m.name === req);
+                let reqMaterial = resources[req];
                 if (!reqMaterial || reqMaterial.qty < requiredQty) {
                     return false;
                 }
@@ -149,7 +144,7 @@ function checkRequirements(button, material) {
 function updateResourceButtons() {
     const buttons = document.querySelectorAll(".gather-btn");
     buttons.forEach((button, index) => {
-        const material = materials[index];
+        const material = materialsData[index];
         const canAfford = balance >= material.cost;
         const hasWorkers = workers >= material.workersRequired;
         const meetsRequirements = checkRequirements(button, material);

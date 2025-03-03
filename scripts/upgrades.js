@@ -1,7 +1,7 @@
 const upgrades = [
     { name: "Tax Collector", emoji: "💰", cost: 0, submenu: buildingsData },
     { name: "Food Collector", emoji: "🍖", cost: 2000, badge: 2000, count: 0 },
-    { name: "Resource Collector", emoji: "🏗️", cost: 50000, submenu: materials },
+    { name: "Resource Collector", emoji: "🏗️", cost: 50000, submenu: materialsData },
     { name: "Weapon Smith", emoji: "⚔️", cost: 40 },
     { name: "Armor Smith", emoji: "🛡️", cost: 35 },
     { name: "Magic Tower", emoji: "🪄", cost: 60 },
@@ -38,7 +38,8 @@ function upgradeItem(name) {
     if (upgrade.count !== undefined) {
         upgrade.count += 1;
     }
-    updateAllButtons();
+
+    scheduleUpdateAllButtons();
 }
 
 function updateUpgradeButtons() {

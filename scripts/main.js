@@ -4,41 +4,23 @@ function updateBalance(amount) {
     balance += amount;
 
     document.getElementById("balance").textContent = `💰 Balance: ₹${convertToINRFormat(balance)}`;
-    updateAllButtons();
+    scheduleUpdateAllButtons();
 }
 
 function updateAllButtons() {
-    // ✅ Update Buy Buttons (Buildings)
-    for (const buildingObj of buildingsData) {
-        const building = buildingObj.name;
-        const btn = document.getElementById(`buy${capitalize(building)}`);
-        const needed = buildingObj.requirements;
-        let canBuild = true;
-
-        for (const item in needed) {
-            const material = materials.find(m => m.name === item);
-            if (!material || material.qty < needed[item]) {
-                canBuild = false;
-                break;
-            }
-        }
-
-        if (balance < buildingsData.find(m => m.name === building).cost) {
-            canBuild = false;
-        }
-        btn.disabled = !canBuild;
-    }
+    console.log("UpdateAllButtons");
 
     document.querySelectorAll(".gather-btn").forEach(button => {
         const materialName = button.querySelector(".badge").id.replace("badge-", "");
-        const material = materials.find(m => m.name === materialName);
+        const material = resources[materialName];
     
         if (material) {
             button.disabled = balance < material.cost;
         }
     });
     
-    updateHireButton(); // Check if the Hire button should be enabled/disabled
+    updateBuildingButtons();
+    updateHireButton();
     updateUpgradeButtons();
     updateResourceButtons();
     updatePurchasedButtons();
@@ -98,5 +80,24 @@ function makeMenuDraggable() {
     
 }
 
+let needsUpdate = false;
+
+function scheduleUpdateAllButtons() {
+    console.log("scheduleUpdate");
+    if (needsUpdate) return; // Already scheduled
+    needsUpdate = true;
+    requestAnimationFrame(() => {
+        updateAllButtons();
+        checkProgression();
+        needsUpdate = false;
+    });
+}
+
 // Call function when the page loads
 document.addEventListener("DOMContentLoaded", makeMenuDraggable);
+document.addEventListener('DOMContentLoaded', () => {
+    generateGrid();
+    createMaterialGrid();
+    hideLockedBuildings();
+    updateProgressTab();
+});

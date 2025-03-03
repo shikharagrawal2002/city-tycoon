@@ -2,7 +2,7 @@ let workers = 0; // Starting number of workers
 
 
 function hireWorker() {
-    const foodQty = materials.find(m => m.name === "food").qty;
+    const foodQty = resources['food'].qty;
 
     if (balance < 1000) {
         alert("Not enough money to hire a worker!");
@@ -13,14 +13,18 @@ function hireWorker() {
         return;
     }
     updateBalance(-1000);
-    workers += 1;
-    updateWorkerDisplay();
+    updateWorkers(1);
     updateHireButton();
 }
 
 function updateWorkerDisplay() {
     document.getElementById("workerCount").textContent = `${workers}`;
-    updateAllButtons();
+    scheduleUpdateAllButtons();
+}
+
+function updateWorkers(count) {
+    workers += count;
+    updateWorkerDisplay();
 }
 
 function updateHireButton() {

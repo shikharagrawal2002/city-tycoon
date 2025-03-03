@@ -6,7 +6,7 @@ function purchased(building) {
     addBuildingToGrid(newPurchase, purchasedData.length - 1);
 
     // Update Upgrade Button State
-    updateAllButtons();
+    scheduleUpdateAllButtons();
 }
 
 // Function to add a building to the purchased grid
@@ -101,7 +101,7 @@ function collectTax(building, button) {
 }
 
 function getMaterialQty(materialName) {
-    const material = materials.find(m => m.name === materialName);
+    const material = resources[materialName];
     return material ? material.qty : 0;
 }
 
@@ -144,7 +144,7 @@ function upgradeBuilding(building, button) {
             button.style.opacity = 1;
             building.level++;
             button.innerText = `⬆ Upgrade ₹${
-                convertToINRFormat(Math.ceil(building.ref.cost * Math.pow(1.5, building.level)))}`;
+                convertToINRFormat(building.ref.cost * building.level)}`;
             const buildingDiv = button.closest(".purchased-building");
             const levelDiv = buildingDiv.querySelector(".building-level");
             levelDiv.innerText = `Level: ${building.level}`;
@@ -156,7 +156,7 @@ function upgradeBuilding(building, button) {
                 .map(([key, val]) => `${materialEmojis[key]} x${val * building.level}`)
                 .join(', ');
 
-            updateAllButtons();
+            scheduleUpdateAllButtons();
         }
     }, 300);
 }
@@ -173,7 +173,7 @@ function updatePurchasedButtons() {
 
         if (requirements) {
             for (const resource in requirements) {
-                const material = materials.find(m => m.name === resource);
+                const material = resources[resource];
                 if (!material || material.qty < requirements[resource] * building.level) {
                     hasEnoughResources = false;
                     break;
