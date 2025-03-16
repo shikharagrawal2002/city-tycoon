@@ -13,9 +13,11 @@
     <link rel="stylesheet" href="styles/food.css">    
     <link rel="stylesheet" href="styles/purchased.css">
     <link rel="stylesheet" href="styles/conversion.css">    
- 
+    <link rel="stylesheet" href="styles/buildingCard.css">    
+
+    
 </head>
-<body>
+<body>                
     <div class="top">
         <span id="balance">💰 Balance: ₹0</span>
         <span class="floating-toolbar">
@@ -43,6 +45,15 @@
             <div class="grid" id="materialGrid"></div>
         </div>
         <div class="right">
+            <div class="land-grid" id="land-grid"></div>
+            <template id="overlay-content-template">
+                <button class="close-btn">&times;</button>
+                <h2 class="building-title"></h2>
+                <p class="building-level"></p>
+                <div class="required-qty">Requirements: <span class="requirement-list"></span></div>
+                <button id="upgrade-btn" class="purchased-upgrade-button"></button>
+            </template>
+
             <div class="purchased-grid" id="purchasedGrid"></div>
         </div>
     </div>
@@ -82,8 +93,37 @@
       <p id="buildingCost"></p>
       <p id="buildingTax"></p>
       <h3>Requirements:</h3>
-      <ul id="buildingRequirements"></ul>
+      <div id="buildingRequirements"></div>
       <button id="buildButton">Build</button>
+    </div>
+
+    <div class="building-card" id="buildingCard">
+        <button class="building-card-close-button" onclick="closeCard()">✖</button>
+        <div class="building-card-header-container">
+            <img id="buildingCardImage" alt="Building Image">
+            <div id="buildingCardTitle" class="building-card-header"></div>
+        </div>
+        <div class="building-card-info"><span>💰 Cost:</span>
+            <span id="buildingCardCost"></span>
+        </div>
+        <div class="building-card-info"><span>⏫ Level:</span> <span id="buildingCardLevel"></span></div>
+        <div class="building-card-info"><span>⚙️ Generates:</span> <span id="buildingCardProduce"></span></div>
+        <div id="buildingResources" class="building-card-resource-list">
+            <div class="building-card-resource-item" data-tooltip="Need to plant trees for wood production">
+                <span class="building-card-resource-name">🪵 Wood:</span>
+                <span>200</span>
+            </div>
+            <div class="building-card-resource-item insufficient" data-tooltip="Mine more stones to meet requirement">
+                <span class="building-card-resource-name">🪨 Stone:</span>
+                <span class="building-card-insufficient">150</span>
+            </div>
+            <div class="building-card-resource-item" data-tooltip="Energy is generated from power plants">
+                <span class="building-card-resource-name">⚡ Energy:</span>
+                <span>100</span>
+            </div>
+        </div>
+        <button id="buildingCardButton" class="build-button">Build 🔨</button>
+        <div class="building-card-info"><span>⏳ Build Time:</span> <span id="buildingCardTime"></span></div>
     </div>
 
     <script src="scripts/main.js"></script>
@@ -95,6 +135,8 @@
     <script src="scripts/purchased.js"></script>
     <script src="scripts/conversion.js"></script>
     <script src="scripts/progress.js"></script>
+    <script src="scripts/buildingCard.js"></script>
+
 
 </body>
 </html>

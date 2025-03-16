@@ -152,7 +152,7 @@
 .grid-menu {
     position: fixed;
     bottom: 90px;
-    right: 20px;
+    right: 90px;
     width: 190px;
     background: white;
     border-radius: 12px;
@@ -233,4 +233,91 @@
     height: 100%;
     background: rgba(0, 0, 0, 0.3);
     display: none;
+}
+
+.cost-bar-container {
+    width: 100%;
+    background-color: #333; /* Dark background for contrast */
+    border-radius: 10px;
+    padding: 4px;
+    margin-top: 8px;
+}
+
+.cost-bar {
+    height: 20px;
+    line-height: 20px;
+    background: linear-gradient(90deg, gold, orange); /* Gold gradient */
+    border-radius: 8px;
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    transition: width 0.5s ease-in-out;
+}
+
+.req-container {
+    display: grid;
+    grid-template-columns: repeat(2, auto); /* 2 columns */
+    gap: 20px 50px; /* Reduced vertical gap, kept horizontal spacing */
+    justify-content: center;
+    align-items: center;
+}
+
+.req-circle {
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(145deg, #222222, #333333); /* Matte Black Gradient */
+    border: 4px solid #FFD700; /* Golden outer border */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    cursor: default;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4), 
+                inset 0 2px 4px rgba(255, 255, 255, 0.2),
+                0 0 8px rgba(255, 215, 0, 0.5); /* Soft golden glow */
+    transition: all 0.2s ease-in-out;
+    position: relative;
+}
+
+.req-circle:hover {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
+
+.req-circle:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 
+                inset 0 3px 6px rgba(0, 0, 0, 0.3);
+    transform: scale(0.95);
+}
+
+.req-qty {
+    width: 35px;
+    background: linear-gradient(145deg, #FFD700, #FFC107); /* Glossy golden */
+    border-radius: 8px;
+    position: absolute;
+    right: -35px; /* Pushed further to the right */
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: black;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    padding: 2px 5px;
+    border: 1px solid #caa000; /* Slightly darker gold border */
+}
+
+.req-qty::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    width: 30px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.5); /* Highlight effect */
+    border-radius: 5px;
 }
