@@ -38,6 +38,82 @@
     animation: pulse 1s infinite alternate;
 }
 
+.land-grid-cell .tax-button {
+    position: absolute;
+    top: -5px;
+    right: 0px;
+}
+
+.land-grid-cell .progress-bar {
+    /* width: 70%; */
+    width: calc(100% - 25px); /* Extends up to tax button */
+    height: 10px;
+    top: -5px;
+    display: none;
+    background: none;
+}
+
+/* Upgrading text inside progress bar */
+.progress-text {
+    font-size: 8px;
+    font-weight: bold;
+    color: black;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #4caf50;
+    width: 0%; /* Start empty */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Animation to fill progress bar in 10 seconds */
+.animate-progress {
+    animation: fillProgress 10s linear forwards;
+}
+
+@keyframes fillProgress {
+    from {
+        width: 0%;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+/* Multiple stars bursting outward */
+.star-animation {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    font-size: 18px; /* Adjust size */
+    opacity: 1;
+    transform: translate(-50%, -50%);
+    animation: explodeStar 2s ease-out forwards;
+}
+
+/* Firework-like explosion */
+@keyframes explodeStar {
+    0% {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 1;
+    }
+    50% {
+        transform: translate(var(--star-x), var(--star-y)) scale(1.5);
+    }
+    100% {
+        transform: translate(var(--star-x), var(--star-y)) scale(1);
+        opacity: 0;
+    }
+}
+
+
 .purchased-upgrade-button {
     display: flex;
     padding: 8px 8px;
@@ -73,3 +149,75 @@
     /* transform: none; */
     /* position: relative; */
 }
+
+.land-grid {
+    display: grid;
+    grid-template-rows: repeat(3, 160px);
+    grid-auto-flow: column;
+    width: max-content;
+    gap: 30px;
+    margin: 20px;
+    position: relative;
+}
+
+.land-grid-cell {
+    width: 160px;
+    /* background-color: #80e09a; */
+    /* border: 1px solid #aaa; */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+#upgrade-content {
+    background: rgba(255, 255, 255, 0.2); /* Transparent white */
+    border-radius: 20px;
+    padding: 30px;
+    width: 420px;
+    text-align: center;
+    box-shadow: 0px 12px 40px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(25px);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+#upgrade-content p {
+    font-size: 18px;
+    margin: 10px 0;
+    color: #ddd;
+}
+
+/* Fade-in effect */
+@keyframes fadeIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Close button (X) */
+.close-btn {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    background: none;
+    color: white;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #ff4d4d;
+    transform: scale(1.1);
+}
+
+.purchased-upgrade-button:hover {
+    background: linear-gradient(145deg, #388e3c, #2e7d32);
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25), -4px -4px 10px rgba(255, 255, 255, 0.15);
+}
+

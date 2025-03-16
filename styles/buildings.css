@@ -1,3 +1,69 @@
+.money-container {
+    display: flex;
+    align-items: center;
+}
+
+.money-req {
+    padding: 5px 20px; /* Reduced padding to make it narrower */
+    margin-left: -10px;
+    width: 50%;
+    font-size: 12px;
+    font-weight: bold;
+    color: #ffd700; /* Bright gold text */
+    background: black; /* Dark golden background */
+    border-radius: 0px 50px 50px 0px; /* Left side rounded in reverse */
+    text-align: center;
+    min-width: 70px; /* Reduced width */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #5A4505; /* Darker gold border */
+}
+
+.money-req.red {
+    background: red;
+}
+
+.money-req.green {
+    background: green;
+}
+
+.money-ring {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, #b8860b, #ffd700, #b8860b);
+    position: relative;
+    box-shadow: inset 5px 5px 10px rgba(255, 255, 255, 0.5), 
+                inset -5px -5px 10px rgba(50, 50, 50, 0.8),
+                5px 5px 15px rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.money-ring::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    background: #222;
+    box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.9),
+                inset -5px -5px 10px rgba(255, 255, 255, 0.2);
+    z-index: 1;
+}
+
+.money-icon {
+    position: absolute;
+    font-size: 20px;
+    top: 10px;
+    z-index: 3;
+}
+
 .building-item {
     background: linear-gradient(145deg, #FFD700, #FFEC8B); /* Golden gradient */
     padding: 10px;
@@ -21,3 +87,10 @@
     border-radius: 12px;
     background: linear-gradient(145deg, #222, #333);
 }
+
+.draggable {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+}
+

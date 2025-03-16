@@ -57,13 +57,21 @@ body {
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
 }
 
+
 .right {
     flex: 1;
-    background: #ddd;
-    overflow-y: auto;
+    /* background-image: url('../images/terrain.png'); */
+    background-size: auto; 
+    background-position: center;
+    background-repeat: no-repeat;
+    /* background-color: #edefe5;  */
+    background-color: black;
+    background-attachment: local;
+    overflow: auto;
     padding: 10px;
-    width: 100%;
 }
+
+
 
 .bottom {
     flex-shrink: 0;
@@ -120,3 +128,4 @@ body {
         padding: 5px;
     }
 }
+
