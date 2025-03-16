@@ -1,17 +1,18 @@
 const materialsData = [
     { name: "food", icon: "🍞", cost: 200, gatherTime: 1500, qty:10, workersRequired:0 },
-    { name: "wood", icon: "🪵", cost: 300, gatherTime: 4000, qty:1, workersRequired:1, collector: 0 },
-    { name: "steel", icon: "🔩", cost: 500, gatherTime: 5000, qty:1, workersRequired:2, collector: 0 },
-    { name: "cement", icon: "🏗️", cost: 1000, gatherTime: 6000, qty:0, workersRequired:2 },
-    { name: "tools", icon: "🛠️", cost: 2000, gatherTime: 7000, qty:0, workersRequired:3 },
-    { name: "energy", icon: "⚡", cost: 5000, gatherTime: 8000, qty:0, workersRequired:4 },
-    { name: "plank", img: "woodplank.png", icon: "🪵🪚", cost: 1000, gatherTime: 4000, qty:0, workersRequired:1,
+    { name: "wood", icon: "🪵", cost: 300, gatherTime: 4000, qty:10, workersRequired:1, collector: 0 },
+    { name: "steel", icon: "🔩", cost: 500, gatherTime: 5000, qty:10, workersRequired:2, collector: 0 },
+    { name: "cement", icon: "🏗️", cost: 1000, gatherTime: 6000, qty:10, workersRequired:2 },
+    { name: "tools", icon: "🛠️", cost: 2000, gatherTime: 7000, qty:10, workersRequired:3 },
+    { name: "energy", icon: "⚡", cost: 5000, gatherTime: 8000, qty:10, workersRequired:4 },
+    { name: "plank", img: "images/woodplank.png", icon: "🪵🪚", cost: 1000, gatherTime: 4000, qty:0, workersRequired:1,
         requirements: { wood: 1, sawmill:1 }
     },
 ];
 
 const resources = {};
 materialsData.forEach(m => resources[m.name] = m);
+const materialEmojis = Object.fromEntries(materialsData.map(m => [m.name, m.icon]));
 
 function createMaterialGrid() {
     const grid = document.getElementById("materialGrid");

@@ -1,5 +1,17 @@
 let balance = 0;
 
+function hasEnoughResources(cost, requirements, level = 1) {
+    if (balance < cost * level) return { canProceed: false, reason: "❌ Not enough ₹" };
+
+    for (const [material, qty] of Object.entries(requirements)) {
+        if (getMaterialQty(material) < qty * level) {
+            return { canProceed: false, reason: `❌ Need more ${materialEmojis[material] || material}` };
+        }
+    }
+
+    return { canProceed: true, reason: "✅ Sufficient resources" };
+}
+
 function updateBalance(amount) {
     balance += amount;
 
@@ -19,11 +31,9 @@ function updateAllButtons() {
         }
     });
     
-    updateBuildingButtons();
     updateHireButton();
     updateUpgradeButtons();
     updateResourceButtons();
-    updatePurchasedButtons();
 }
 
 function convertToINRFormat(num) {
@@ -87,8 +97,12 @@ function scheduleUpdateAllButtons() {
     if (needsUpdate) return; // Already scheduled
     needsUpdate = true;
     requestAnimationFrame(() => {
-        updateAllButtons();
-        checkProgression();
+        try {
+            updateAllButtons();
+            checkProgression();    
+        } catch (error) {
+            console.error("Error in animation frame callback:", error);
+        }
         needsUpdate = false;
     });
 }
@@ -96,8 +110,8 @@ function scheduleUpdateAllButtons() {
 // Call function when the page loads
 document.addEventListener("DOMContentLoaded", makeMenuDraggable);
 document.addEventListener('DOMContentLoaded', () => {
-    generateGrid();
+    updateBalance(100000);
     createMaterialGrid();
-    hideLockedBuildings();
     updateProgressTab();
 });
+

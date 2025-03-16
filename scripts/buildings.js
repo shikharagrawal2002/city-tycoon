@@ -1,98 +1,79 @@
 const buildingsData = [
-    { name: "house", icon: "🏠", cost: 1000, tax: 100, taxInterval: 3000, requirements: { wood: 1, steel: 1 }, collector: 0 },
-    { name: "hotel", icon: "🏨", cost: 2000, tax: 100, taxInterval: 3000, requirements: { wood: 1, steel: 1 }, collector: 0 },
-    { name: "office", icon: "🏢", cost: 3000, tax: 200, taxInterval: 5000, requirements: { wood: 1, cement: 1 }, collector: 0 },
-    { name: "mall", icon: "🏬", cost: 5000, tax: 400, taxInterval: 10000, requirements: { cement: 1, tools: 1 }, collector: 0 },
-    { name: "factory", icon: "🏭", cost: 8000, tax: 800, taxInterval: 18000, requirements: { steel: 2, energy: 2 }, collector: 0 },
-    { name: "sawmill", icon: "🪵🪚", img: 'sawmill.png', cost: 12000, tax: 1000, taxInterval: 30000, requirements: { cement: 2, tools: 2, energy: 2 }, collector: 0 },
-    { name: "market", icon: "🛒", cost: 15000, tax: 2000, taxInterval: 30000, requirements: { steel: 2, cement: 2, tools: 2, energy: 3 }, collector: 0 }
+    { name: "hut", icon: "🏢", img: 'images/hut.png', cost: 1000, tax: 100, taxInterval: 5000, requirements: { wood: 1 },
+      collector: 0, produces: { population: 5 } },
+    { name: "farm", icon: "🌾", img: 'images/farm.png', cost: 5000, tax: 0, taxInterval: 0, requirements: { /*water: 2,*/ energy: 1 },
+      collector: 1, produces: { food: 5, interval: 15 } },
+    { name: "forest", icon: "🌲", img: 'images/forest.png', cost: 3000, tax: 0, taxInterval: 0, requirements: {},
+      collector: 1, produces: { wood: 2, interval: 20 } },
+    { name: "house", icon: "🏢", img: 'images/house4.png', cost: 3000, tax: 200, taxInterval: 5000, requirements: { wood: 1, cement: 1 }, collector: 0 },
+    { name: "house1", icon: "🏠", img: 'images/house.png', cost: 1000, tax: 100, taxInterval: 3000, requirements: { wood: 1, steel: 1 }, collector: 0 },
+    { name: "house2", icon: "🏨", img: 'images/house2.png', cost: 2000, tax: 100, taxInterval: 3000, requirements: { wood: 1, steel: 1 }, collector: 0 },
+    { name: "house3", icon: "🏨", img: 'images/house3.png', cost: 2000, tax: 100, taxInterval: 3000, requirements: { wood: 1, steel: 1 }, collector: 0 },
+    { name: "market2", icon: "🏨", img: 'images/market2.png', cost: 2000, tax: 100, taxInterval: 3000, requirements: { wood: 1, steel: 1 }, collector: 0 },
+    { name: "market3", icon: "🏨", img: 'images/market3.png', cost: 2000, tax: 100, taxInterval: 3000, requirements: { wood: 1, steel: 1 }, collector: 0 },
+    { name: "market4", icon: "🏨", img: 'images/market4.png', cost: 2000, tax: 100, taxInterval: 3000, requirements: { wood: 1, steel: 1 }, collector: 0 },
+    { name: "market5", icon: "🏨", img: 'images/market5.png', cost: 2000, tax: 100, taxInterval: 3000, requirements: { wood: 1, steel: 1 }, collector: 0 },
+    { name: "university", icon: "🏨", img: 'images/university.png', cost: 2000, tax: 100, taxInterval: 3000, requirements: { wood: 1, steel: 1 }, collector: 0 },
+    { name: "university2", icon: "🏨", img: 'images/university2.png', cost: 2000, tax: 100, taxInterval: 3000, requirements: { wood: 1, steel: 1 }, collector: 0 },
+    { name: "hotel", icon: "🏨", img: 'images/hotel.png', cost: 2000, tax: 100, taxInterval: 3000, requirements: { wood: 1, steel: 1 }, collector: 0 },
+    { name: "hotel2", icon: "🏨", img: 'images/hotel3.png', cost: 2000, tax: 100, taxInterval: 3000, requirements: { wood: 1, steel: 1 }, collector: 0 },
+    { name: "oldschool", icon: "🏬", img: 'images/school2.png', cost: 5000, tax: 400, taxInterval: 10000, requirements: { cement: 1, tools: 1 }, collector: 0 },
+    { name: "school", icon: "🏭", img: 'images/school.png', cost: 8000, tax: 800, taxInterval: 18000, requirements: { steel: 2, energy: 2 }, collector: 0 },
+    { name: "college", icon: "🏭", img: 'images/college.png', cost: 8000, tax: 800, taxInterval: 18000, requirements: { steel: 2, energy: 2 }, collector: 0 },
+    { name: "sawmill", icon: "🪵🪚", img: 'images/sawmill.png', cost: 12000, tax: 1000, taxInterval: 30000, requirements: { cement: 2, tools: 2, energy: 2 },
+      collector: 0, produces: {plank:1, interval: 10} },
+    { name: "wind Mill", icon: "🪵🪚", img: 'images/windmill.png', cost: 1000, tax: 1000, taxInterval: 30000, requirements: { cement: 2, tools: 2, energy: 2 }, 
+      collector: 0, produces: {energy: 1, interval: 20} },
+    { name: "textile Mill", icon: "🪵🪚", img: 'images/textilemill.png', cost: 1000, tax: 1000, taxInterval: 30000, requirements: { cement: 2, tools: 2, energy: 2 }, collector: 0 },
+    { name: "market", icon: "🛒", img: 'images/market.png', cost: 15000, tax: 2000, taxInterval: 30000, requirements: { steel: 2, cement: 2, tools: 2, energy: 3 }, collector: 0 }
 ];
 
+class Building {
+  constructor({ name, icon, img, cost, tax, taxInterval, requirements, collector, produces }) {
+      this.name = name;
+      this.icon = icon;
+      this.img = img;
+      this.cost = cost;
+      this.tax = tax;
+      this.taxInterval = taxInterval;
+      this.requirements = requirements;
+      this.collector = collector;
+      this.produces = produces;
+  }
 
-const materialEmojis = Object.fromEntries(materialsData.map(m => [m.name, m.icon]));
+  getCost() {
+      return this.cost * (this.level || 1);
+  }
 
-function generateGrid() {
-    const gridContainer = document.querySelector('.building-grid');
-    gridContainer.innerHTML = '';
+  canAfford(balance, materialsData) {
+      if (balance < this.cost) return false;
 
-    buildingsData.forEach((building, index) => {
-        const div = document.createElement("div");
-        div.dataset.name = building.name;
-        div.classList.add("building-item");
-
-        const requirementDiv = document.createElement('div');
-        requirementDiv.className = 'required-qty';
-        requirementDiv.textContent = Object.entries(building.requirements)
-            .map(([key, val]) => `${materialEmojis[key]} x${val}`).join(', ');
-        div.appendChild(requirementDiv);
-
-        const buildingDiv = document.createElement('div');
-        buildingDiv.className = 'grid-item building';
-        if (building.img) {
-            buildingDiv.innerHTML = `<img src=${building.img} style="width:40px; height:40px;">
-            <span class="below-info">💰 ${building.tax}</span>`;
-        } else {
-            buildingDiv.innerHTML = `
-                ${building.icon}<span class="below-info">💰 ${building.tax}</span>
-                `;
-        }
-        div.appendChild(buildingDiv);
-
-        const costDiv = document.createElement('div');
-        costDiv.className = 'grid-item cost';
-        costDiv.innerHTML = `
-            <button class="buy-btn" id="buy${capitalize(building.name)}" 
-                onclick="purchase('${building.name}')" disabled>
-                Buy ₹${building.cost}
-            </button>
-            <div class="progress-bar"><div class="progress-fill"></div></div>
-            
-        `;
-        div.appendChild(costDiv);
-
-        gridContainer.appendChild(div);
-
-        // Simulate progress bar filling
-        setTimeout(() => {
-            div.querySelector(".progress-fill").style.width = "100%";
-        }, 500);
-    });
-
-    updateBalance(10000);
+      return Object.entries(this.requirements).every(([material, qty]) => {
+          const resource = materialsData.find((b) => b.name === material);
+          return resource && resource.qty >= qty;
+      });
+  }
 }
 
-function purchase(building) {
-    const nBuilding = buildingsData.find(m => m.name === building);
-    const needed = nBuilding.requirements;
+const newBuildings = buildingsData.map(data => new Building(data));
 
-    for (const item in needed) {
-        updateMaterial(item, -needed[item]);
+function purchase(buildingName) {
+    const building = newBuildings.find(b => b.name === buildingName);
+    if (!building) {
+        console.error(`Building "${buildingName}" not found`);
+        return;
     }
-
-    updateBalance(-nBuilding.cost);
-    purchased(nBuilding);
-}
-
-function updateBuildingButtons() {
-    for (const buildingObj of buildingsData) {
-        const building = buildingObj.name;
-        const btn = document.getElementById(`buy${capitalize(building)}`);
-        const needed = buildingObj.requirements;
-        let canBuild = true;
-
-        for (const item in needed) {
-            const material = resources[item];
-            if (!material || material.qty < needed[item]) {
-                canBuild = false;
-                break;
-            }
-        }
-
-        if (balance < buildingObj.cost) {
-            canBuild = false;
-        }
-        btn.disabled = !canBuild;
+    
+    if (!building.canAfford(balance, materialsData)) {
+        console.warn("Not enough resources to purchase");
+        return;
     }
+    
+    for (const [material, qty] of Object.entries(building.requirements)) {
+        updateMaterial(material, -qty);
+    }
+    updateBalance(-building.cost);
+    purchased(building);
 }
 
 function enableBuilding(buildingName) {
@@ -101,17 +82,6 @@ function enableBuilding(buildingName) {
         btn.closest(".building-item").style.display = "block";
     }
 }
-
-function hideLockedBuildings() {
-    ["factory", "market", "sawmill"].forEach(name => {
-        const element = document.getElementById(`buy${capitalize(name)}`);
-        if (element) {
-            element.closest(".building-item").style.display = "none";
-        }
-    });
-}
-
-// New FAB for Building Menus
 
 const getMaterialIcon = name => materialsData.find(m => m.name === name)?.icon || '❓';
 
@@ -126,29 +96,20 @@ fab.onclick = () => {
   updateScrollIndicators();
 };
 
-buildingsData.forEach(building => {
-  const btn = document.createElement('div');
-  btn.className = 'building-btn';
-  btn.textContent = building.icon;
-  btn.onclick = () => showDetails(building);
-  gridContainer.appendChild(btn);
+newBuildings.forEach(building => {
+    const btn = document.createElement('div');
+    btn.className = 'building-btn';
+
+    if (building.img) {
+        btn.innerHTML = `<img src="${building.img}" alt="${building.name}" class="draggable">`;
+    } else {
+        btn.textContent = building.icon;
+    }
+
+    btn.onclick = () => openCard(building);
+    gridContainer.appendChild(btn);
 });
 
-function showDetails(building) {
-  document.getElementById('buildingName').innerText = `${building.icon} ${building.name}`;
-  document.getElementById('buildingCost').innerText = `Cost: ${building.cost}`;
-  document.getElementById('buildingTax').innerText = `Tax: ${building.tax} every ${building.taxInterval / 1000}s`;
-  
-  const reqList = document.getElementById('buildingRequirements');
-  reqList.innerHTML = '';
-  for (const [material, amount] of Object.entries(building.requirements)) {
-    reqList.innerHTML += `<li>${getMaterialIcon(material)} ${material}: ${amount}</li>`;
-  }
-
-  document.getElementById('buildButton').onclick = () => alert(`Building ${building.name}...`);
-  detailsPopup.style.display = overlay.style.display = 'block';
-  gridMenu.style.display = 'none';
-}
 
 // Scroll indicator and swipe handling (continues below in next message...)
 const scrollLeftBtn = document.getElementById('scrollLeft');
